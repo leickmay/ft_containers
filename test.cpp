@@ -43,10 +43,22 @@ int main()
 
 	ft::vector<int>::iterator it2;
 	myarray.push_back(5);
-	//myarray.reserve(10);
+	myarray.push_back(6);
+	myarray.reserve(10);
 	std::cout << "my array after resize : " << myarray.size() << std::endl;
 	std::cout << "capacity : " << myarray.capacity() << std::endl;
-	for (it2 = myarray.begin(); it2 != myarray.end(); it2++)
-	std::cout << "-- " << *myarray.begin() << std::endl;
+	it2 = myarray.begin();
+	for (int i = 0; i < myarray.size(); i++)
+	{
+		std::cout << i <<  " -- " << *it2 << std::endl;
+		it2++;
+	}
+	for (ft::vector<int>::iterator pouic = myarray.begin(); pouic != myarray.end(); pouic++)
+		std::cout << " - " << *pouic << std::endl;
+	ft::vector<int>::iterator it3 = myarray.begin();
+	it3++;
+	//it3++;
+	//it3++;
+	//std::cout << "-- " << *it3 << std::endl;
   return 0;
 }

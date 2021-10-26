@@ -6,9 +6,11 @@ namespace ft{
 	class RandomAccessIterator{
 		public:
 		//typedef
-			typedef T	value_type;
-			typedef T*	pointer;
-			typedef T&	reference;
+			typedef T							value_type;
+			typedef T*							pointer;
+			typedef T&							reference;
+			typedef ptrdiff_t					difference_type;
+			typedef random_access_iterator_tag	iterator_category;
 
 		//constructors
 			RandomAccessIterator():_ptr(NULL) {};
@@ -36,7 +38,27 @@ namespace ft{
 				++_ptr;
 				return ret;
 			}
+			RandomAccessIterator &operator--() {
+				--_ptr;
+				return *this;
+			}
+			RandomAccessIterator &operator--(int) {
+				RandomAccessIterator ret(*this);
+				--_ptr;
+				return ret;
+			}
+			RandomAccessIterator &operator+=(difference_type n) {
+				_ptr += n;
+				return *this;
+			}
+			RandomAccessIterator &operator-=(difference_type n) {
+				_ptr -= n;
+				return *this;
+			}
 
+
+		//offset derefence operator
+			reference &operator[] (difference_type n) const {return &_ptr[n];}
 		private:
 			pointer	_ptr;
 			//reference _ref;
