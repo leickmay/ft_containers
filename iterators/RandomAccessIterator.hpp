@@ -25,14 +25,21 @@ namespace ft{
 			pointer getPointer() {return _ptr;}
 
 			value_type operator*() {return *_ptr;}
+			value_type operator->() {return *_ptr;}
+
 			RandomAccessIterator &operator++() {
-				_ptr++;
+				++_ptr;
 				return *this;
+			}
+			RandomAccessIterator &operator++(int) {
+				RandomAccessIterator ret(*this);
+				++_ptr;
+				return ret;
 			}
 
 		private:
 			pointer	_ptr;
-			reference _ref;
+			//reference _ref;
 	};
 	//comparisons
 	/*
