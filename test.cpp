@@ -6,22 +6,37 @@ int main()
 {
 	std::vector<int> array;
 	ft::vector<int> myarray;
-	//myarray.push_back(42);
-	//myarray.push_back(84);
-	array.push_back(2);
+
+	array.push_back(20);
 	array.push_back(4);
+	array.push_back(6);
+	array.push_back(8);
 
-	int test[3];
-	test[0] = 42;
-	test[1] = 1;
-	test[2] = 2;
+	myarray.push_back(20);
+	myarray.push_back(4);
+	myarray.push_back(6);
+	myarray.push_back(8);
 
-	ft::RandomAccessIterator<int> pouic(test);
 	std::vector<int>::iterator it;
-	ft::vector<int>::iterator b;
+	std::vector<int>::iterator itt;
+
+	it = array.begin();
+	itt = it + 1;
+	itt++;
+	std::cout << *it + 1 << std::endl;
+
+	ft::vector<int>::iterator it2;
+	ft::vector<int>::iterator itt2;
+
+	it2 = myarray.begin();
+	itt2 = it2 + 1;
+	itt2++;
+	//ittt = itt - it;
+	std::cout << *it2 + 1 << std::endl;
+
 	//b = myarray.begin();
 	//pouic++;
-	std::cout << "size before resize : " << array.size() << std::endl;
+/*	std::cout << "size before resize : " << array.size() << std::endl;
 	std::cout << "capacity : " << array.capacity() << std::endl;
 	for (it = array.begin(); it != array.end(); it++)
 		std::cout << "-- " << *it << std::endl;
@@ -56,9 +71,10 @@ int main()
 	for (ft::vector<int>::iterator pouic = myarray.begin(); pouic != myarray.end(); pouic++)
 		std::cout << " - " << *pouic << std::endl;
 	ft::vector<int>::iterator it3 = myarray.begin();
-	it3++;
+	it3++;*/
 	//it3++;
 	//it3++;
 	//std::cout << "-- " << *it3 << std::endl;
+
   return 0;
 }
