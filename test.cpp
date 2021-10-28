@@ -34,6 +34,12 @@ int main()
 	//ittt = itt - it;
 	std::cout << *it2 + 1 << std::endl;
 
+ // typedef ft::vector<const int*>::iterator traits;
+  //if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
+   // std::cout << "int* is a random-access iterator";
+
+	std::cout << "rbegin " << *myarray.rbegin() <<  "    -    " << *array.rbegin() << std::endl;
+
 	//b = myarray.begin();
 	//pouic++;
 /*	std::cout << "size before resize : " << array.size() << std::endl;

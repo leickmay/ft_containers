@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iterator_traits.hpp"
 
 namespace ft{
 	template < class T >
@@ -58,7 +59,7 @@ namespace ft{
 			//Arithmetics
 			RandomAccessIterator	operator+(difference_type n){return (_ptr + n);}
 			RandomAccessIterator	operator-(difference_type n){return (_ptr - n);}
-			difference_type		operator-(RandomAccessIterator const& a){return _ptr - a._ptr;}
+			difference_type			operator-(RandomAccessIterator const& a){return _ptr - a._ptr;}
 
 
 			//comparisons

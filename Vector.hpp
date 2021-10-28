@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include "iterators/RandomAccessIterator.hpp"
+#include "iterators/ReverseIterator.hpp"
 
 
 namespace ft
@@ -23,7 +24,9 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 
 			typedef ft::RandomAccessIterator<value_type> 		iterator;
-			typedef const ft::RandomAccessIterator<value_type>	const_iterator;
+			typedef ft::RandomAccessIterator<const value_type>	const_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const iterator>		const_reverse_iterator;
 
 
 //default (1)	
@@ -43,6 +46,8 @@ namespace ft
 			//Iterators
 			iterator begin() {return _c;}
 			iterator end() {return &_c[_size];}
+			reverse_iterator rbegin(){return reverse_iterator(end());}
+			const_reverse_iterator rbegin() const {return const_reverse_iterator(end());}
 			//Capacity
 			size_type	size() const {return _size;}
 			size_type	max_size() const {return _alloc.max_size();}
