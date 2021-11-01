@@ -48,6 +48,9 @@ namespace ft
 			iterator end() {return &_c[_size];}
 			reverse_iterator rbegin(){return reverse_iterator(end());}
 			const_reverse_iterator rbegin() const {return const_reverse_iterator(end());}
+			reverse_iterator rend(){return reverse_iterator(begin());}
+			const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
+
 			//Capacity
 			size_type	size() const {return _size;}
 			size_type	max_size() const {return _alloc.max_size();}
@@ -87,6 +90,48 @@ namespace ft
 					_capacity = n;
 				}
 			}
+
+			bool empty() const{
+				return (_size == 0);
+			}
+		//Element access
+
+			reference operator[] (size_type n){return _c[n];}
+			const_reference operator[] (size_type n) const{return _c[n];}
+			reference at (size_type n){
+				if (n >= _size)
+					throw std::out_of_range("vector");
+				return _c[n];
+			};
+			const_reference at (size_type n) const{
+				if (n >= _size)
+					throw std::out_of_range("vector");
+				return _c[n];
+			};
+
+			reference front(){
+				return _c[0];
+			}
+			const_reference front() const{
+				return _c[0];
+			}
+			reference back(){
+				return _c[_size - 1];
+			}
+			const_reference back() const{
+				return _c[_size - 1];
+			}
+
+
+		//modifiers
+		//range (1)	
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last){
+
+		}
+//fill (2)	
+void assign (size_type n, const value_type& val);
+
 
 			void	push_back(value_type val){
 				if (_size + 1 > _capacity)

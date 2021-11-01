@@ -7,6 +7,8 @@ int main()
 	std::vector<int> array;
 	ft::vector<int> myarray;
 
+	std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
+
 	array.push_back(20);
 	array.push_back(4);
 	array.push_back(6);
@@ -17,6 +19,7 @@ int main()
 	myarray.push_back(6);
 	myarray.push_back(8);
 
+std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
 	std::vector<int>::iterator it;
 	std::vector<int>::iterator itt;
 
@@ -38,7 +41,28 @@ int main()
   //if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
    // std::cout << "int* is a random-access iterator";
 
-	std::cout << "rbegin " << *myarray.rbegin() <<  "    -    " << *array.rbegin() << std::endl;
+	std::cout << "rend " << *myarray.rend() <<  "    -    " << *array.rend() << std::endl;
+	std::cout << "[] operator " << myarray[2] <<  "    -    " << array[2] << std::endl;
+	std::cout << "at : " << myarray.at(2) <<   "    -    " << array[2]  << std::endl;
+	std::cout << " at exceptions : " << std::endl;
+	try
+	{
+		std::cout <<  " " << myarray.at(9)  << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	try
+	{
+		std::cout <<  " " << array.at(9)  << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	std::cout << "front : " << myarray.front() << " - " << array.front() << std::endl;
+	std::cout << "end : " << myarray.back() << " - " << array.back() << std::endl;
 
 	//b = myarray.begin();
 	//pouic++;

@@ -25,8 +25,8 @@ namespace ft{
 			};
 
 		//Dereference
-			value_type operator*() {return *_ptr;}
-			value_type operator->() {return *_ptr;}
+			reference operator*() {return *_ptr;}
+			pointer operator->() const {return &(operator*());}
 
 		//Incrementation
 			RandomAccessIterator	&operator++() {
