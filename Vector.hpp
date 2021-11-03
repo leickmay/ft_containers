@@ -4,6 +4,7 @@
 #include <iostream>
 #include "iterators/RandomAccessIterator.hpp"
 #include "iterators/ReverseIterator.hpp"
+#include "tools/type_traits.hpp"
 
 
 namespace ft
@@ -53,7 +54,9 @@ namespace ft
 
 			//Capacity
 			size_type	size() const {return _size;}
+
 			size_type	max_size() const {return _alloc.max_size();}
+
 			void		resize (size_type n, value_type val = value_type()){
 				if (n < _size)
 				{
@@ -72,10 +75,11 @@ namespace ft
 						_alloc.construct(&_c[i], val);
 				}
 				_size = n;
-				std::cout << " n : " << n << " et val : " << val << std::endl;
-				
 			};
+
 			size_type	capacity() const {return _capacity;}
+
+			bool empty() const {return (_size == 0);}
 
 			void		reserve(size_type n){
 				if (n > _capacity)
@@ -91,59 +95,166 @@ namespace ft
 				}
 			}
 
-			bool empty() const{
-				return (_size == 0);
-			}
 		//Element access
 
 			reference operator[] (size_type n){return _c[n];}
+
 			const_reference operator[] (size_type n) const{return _c[n];}
+
 			reference at (size_type n){
 				if (n >= _size)
 					throw std::out_of_range("vector");
 				return _c[n];
 			};
+
 			const_reference at (size_type n) const{
 				if (n >= _size)
 					throw std::out_of_range("vector");
 				return _c[n];
 			};
 
-			reference front(){
-				return _c[0];
-			}
-			const_reference front() const{
-				return _c[0];
-			}
-			reference back(){
-				return _c[_size - 1];
-			}
-			const_reference back() const{
-				return _c[_size - 1];
-			}
+			reference front() {return _c[0];}
 
+			const_reference front() const{ return _c[0];}
+
+			reference back() {return _c[_size - 1];}
+
+			const_reference back() const {return _c[_size - 1];}
 
 		//modifiers
-		//range (1)	
-		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last){
 
-		}
-//fill (2)	
-void assign (size_type n, const value_type& val);
-
-
-			void	push_back(value_type val){
-				if (_size + 1 > _capacity)
-					resize(_size + 1, val);
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last, 
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = NULL){
+				size_type size = last - first;
+				if (size > _capacity)
+				{
+					pointer tmp = _alloc.allocate(size);
+					for (int i = 0; i < size; i++)
+					{
+						_alloc.construct(&tmp[i], *first);
+						_alloc.destroy(&_c[i]);
+						first++;
+					}
+					_c = tmp;
+					_capacity = size;
+					_size = size;
+				}
 				else
 				{
-					_alloc.construct(&_c[_size], val);
-					_size++;
+					for (int i = 0; i < size; i++)
+					{
+						_alloc.destroy(&_c[i]);
+						_alloc.construct(&_c[i], *first);
+						first++;
+					}
+					_size = size;
 				}
 			}
 
+
+			void assign (size_type n, const value_type& val){
+				if (n > _capacity)
+				{
+					pointer tmp = _alloc.allocate(n);
+					for (int i = 0; i < n; i++)
+					{
+						_alloc.construct(&tmp[i], val);
+						_alloc.destroy(&_c[i]);
+					}
+					_c = tmp;
+					_capacity = n;
+					_size = n;
+				}
+				else
+				{
+					for (int i = 0; i < n; i++)
+					{
+						_alloc.destroy(&_c[i]);
+						_alloc.construct(&_c[i], val);
+					}
+					_size = n;
+				}
+			}
+
+			void	push_back(const value_type& val){
+				if (_size + 1 > _capacity)
+					_reAlloc();
+				_alloc.construct(&_c[_size], val);
+				_size++;
+			}
+
+			void	pop_back(){
+				_alloc.destroy(&_c[_size - 1]);
+				_size--;
+			}
+
+
+//single element (1)	
+iterator insert (iterator position, const value_type& val){
+	if (_size + 1 > _capacity)
+		_reAlloc();
+	int i = _size - 1;
+	iterator it = end();
+	_alloc.construct(&_c[_size], _c[i]);
+	_size++;
+	it--;
+	while (it != position && i > 0)
+	{
+		_alloc.destroy(&_c[i]);    
+		_alloc.construct(&_c[i], _c[i - 1]);
+		i--;
+		it--;
+	}
+	_alloc.destroy(&_c[i]);
+	_alloc.construct(&_c[i], val);
+	return it;
+};
+//fill (2)	
+void insert (iterator position, size_type n, const value_type& val){
+	if (n <= 0)
+		return ;
+
+	int i = _size - 1;
+	iterator it = end();
+	_alloc.construct(&_c[_size + n], _c[i - n]);
+	_size++;
+	it--;
+	while (it != position && i - n > 0)
+	{
+		_alloc.destroy(&_c[i]);
+		_alloc.construct(&_c[i], _c[i - n]);
+		i--;
+		it--;
+	}
+	_alloc.destroy(&_c[i - n]);
+	_alloc.construct(&_c[i - n], val);
+}
+//range (3)	
+template <class InputIterator>
+    void insert (iterator position, InputIterator first, InputIterator last);
+
 		private:
+			void _reAlloc()
+			{
+				if (_capacity == 0)
+				{
+					_c = _alloc.allocate(1);
+					_capacity = 1;
+				}
+				else
+				{
+					pointer tmp = _alloc.allocate(_capacity * 2);
+					for (int i = 0; i < _size; i++)
+					{
+						_alloc.construct(&tmp[i], _c[i]);
+						_alloc.destroy(&_c[i]);
+					}
+					_c = tmp;
+					_capacity *= 2;
+				}
+			}
+
 			pointer			_c;
 			int				_size;
 			int				_capacity;

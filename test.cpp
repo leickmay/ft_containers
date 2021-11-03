@@ -2,24 +2,90 @@
 #include "iterators/RandomAccessIterator.hpp"
 #include <vector>
 #include "Vector.hpp"
+
+
 int main()
 {
 	std::vector<int> array;
 	ft::vector<int> myarray;
+	std::vector<int> r;
+
+	r.reserve(5);
+	std::cout << "r size - capacity : " << r.size() << " " << r.capacity() << std::endl;
+
 
 	std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
 
 	array.push_back(20);
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
 	array.push_back(4);
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
 	array.push_back(6);
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
 	array.push_back(8);
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
+	array.insert(array.begin(), 10);
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
 
 	myarray.push_back(20);
+		std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
 	myarray.push_back(4);
+		std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
 	myarray.push_back(6);
+		std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
 	myarray.push_back(8);
+		std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
+		std::cout << "myarray before : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	myarray.insert(myarray.begin(), 10);
+	std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
+		std::cout << "myarray after insert : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+
+	std::vector<int> b;
+	b.push_back(1);
+	b.push_back(2);
+	b.push_back(3);
+	b.push_back(4);
+	b.push_back(5);
+
 
 std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
+
+	std::cout << "pop back" << std::endl;
+	std::cout << "array before : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	array.pop_back();
+	std::cout << "array after : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	std::cout << "myarray before : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	myarray.pop_back();
+	std::cout << "myarray after : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
+	std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
+
+
 	std::vector<int>::iterator it;
 	std::vector<int>::iterator itt;
 
@@ -63,6 +129,62 @@ std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << st
 	}
 	std::cout << "front : " << myarray.front() << " - " << array.front() << std::endl;
 	std::cout << "end : " << myarray.back() << " - " << array.back() << std::endl;
+
+	std::cout << "assign iterators : " << std::endl;
+	std::cout << "array before : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	array.assign(b.begin(), b.end());
+	std::cout << "array after : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	std::cout << "myarray before : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	myarray.assign(b.begin(), b.end());
+	std::cout << "myarray after : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
+	std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
+
+	std::cout << "assign value : " << std::endl;
+	std::cout << "array before : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	array.assign(2, 42);
+	std::cout << "array after : " << std::endl;
+	for (std::vector<int>::iterator i = array.begin(); i != array.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	std::cout << "myarray before : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+	myarray.assign(2, 42);
+	std::cout << "myarray after : " << std::endl;
+	for (ft::vector<int>::iterator i = myarray.begin(); i != myarray.end(); i++)
+	{
+		std::cout << *i << std::endl;
+	}
+
+	std::cout << "array size - capacity : " << array.size() << " " << array.capacity() << std::endl;
+	std::cout << "myarray size - capacity : " << myarray.size() << " " << myarray.capacity() << std::endl;
+
+
 
 	//b = myarray.begin();
 	//pouic++;
