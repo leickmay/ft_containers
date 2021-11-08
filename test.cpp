@@ -6,7 +6,38 @@
 
 int main()
 {
-	std::vector<int> array;
+
+	std::vector<int> v;
+	for (int i = 0; i < 10; i++)
+		v.push_back(i);
+	std::cout << "Display V :" << std::endl;
+	for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+		std::cout << *it << std::endl;
+
+	ft::vector<int> myv;
+	for (int i = 0; i < 10; i++)
+		myv.push_back(i);
+	std::cout << "Display myV :" << std::endl;
+	for (ft::vector<int>::iterator it = myv.begin(); it != myv.end(); it++)
+		std::cout << *it << std::endl;
+
+	std::vector<int> insrt;
+	for (int i = 40; i < 44; i++)
+		insrt.push_back(i);
+	std::cout << "Display insrt :" << std::endl;
+	for (std::vector<int>::iterator it = insrt.begin(); it != insrt.end(); it++)
+		std::cout << *it << std::endl;
+
+	v.insert(v.begin() + 20, insrt.begin(), insrt.end());
+	std::cout << "Display V after insert : size - capacity " << v.size() << " " << v.capacity() << std::endl;
+	for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+		std::cout << *it << std::endl;
+
+	myv.insert(myv.begin() + 20, insrt.begin(), insrt.end());
+	std::cout << "Display myV after insert : size - capacity " << v.size() << " " << v.capacity() << std::endl;
+	for (ft::vector<int>::iterator it = myv.begin(); it != myv.end(); it++)
+		std::cout << *it << std::endl;
+	/*std::vector<int> array;
 	ft::vector<int> myarray;
 	std::vector<int> r;
 
@@ -206,7 +237,7 @@ int main()
 	for (std::vector<int>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << *it << std::endl;
 
-	//array.clear();
+	//array.clear();*/
 
 /*std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
 
