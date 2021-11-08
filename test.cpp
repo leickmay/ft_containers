@@ -146,7 +146,67 @@ int main()
 	std::cout << "array == array : " << (array == array) << std::endl;
 	std::cout << "myarray == b : " << (myarray == b) << std::endl;
 	std::cout << "myarray == myarray : " << (myarray == myarray) << std::endl;
+	std::cout << "array != a : " << (array != a) << std::endl;
+	std::cout << "array != array : " << (array != array) << std::endl;
+	std::cout << "myarray != b : " << (myarray != b) << std::endl;
+	std::cout << "myarray != myarray : " << (myarray != myarray) << std::endl;
+	std::cout << "array < a : " << (array < a) << std::endl;
+	std::cout << "array < array : " << (array < array) << std::endl;
+	std::cout << "myarray < b : " << (myarray < b) << std::endl;
+	std::cout << "myarray < myarray : " << (myarray < myarray) << std::endl;
+	std::cout << "array <= a : " << (array <= a) << std::endl;
+	std::cout << "array <= array : " << (array <= array) << std::endl;
+	std::cout << "myarray <= b : " << (myarray <= b) << std::endl;
+	std::cout << "myarray <= myarray : " << (myarray <= myarray) << std::endl;
+	std::cout << "array > a : " << (array > a) << std::endl;
+	std::cout << "array > array : " << (array > array) << std::endl;
+	std::cout << "myarray > b : " << (myarray > b) << std::endl;
+	std::cout << "myarray > myarray : " << (myarray > myarray) << std::endl;
+	std::cout << "array >= a : " << (array >= a) << std::endl;
+	std::cout << "array >= array : " << (array >= array) << std::endl;
+	std::cout << "myarray >= b : " << (myarray >= b) << std::endl;
+	std::cout << "myarray >= myarray : " << (myarray >= myarray) << std::endl;
 
+	ft::vector<std::string> myfill(5, "pouic");
+	for (ft::vector<std::string>::iterator it = myfill.begin(); it != myfill.end(); it++)
+		std::cout << *it << std::endl;
+
+	std::vector<std::string> fill(5, "pouic-");
+	for (std::vector<std::string>::iterator it = fill.begin(); it != fill.end(); it++)
+		std::cout << *it << std::endl;
+
+	ft::vector<int> mylol;
+	mylol.push_back(1);
+	mylol.push_back(2);
+	mylol.push_back(3);
+	mylol.push_back(4);
+	mylol.push_back(5);
+	ft::vector<int>::iterator mlb = mylol.begin();
+	mlb++;
+	ft::vector<int>::iterator mle = mylol.end();
+	mle--;
+	std::cout << "mlb - mle : " << *mlb << " - " << *mle << std::endl;
+	std::vector<int> lol;
+	lol.push_back(1);
+	lol.push_back(2);
+	lol.push_back(3);
+	lol.push_back(4);
+	lol.push_back(5);
+	std::vector<int>::iterator lb = lol.begin();
+	lb++;
+	std::vector<int>::iterator le = lol.end();
+	le--;
+	std::cout << "lb - le : " << *lb << " - " << *le << std::endl;
+	ft::vector<int> mytest (mlb, mle);
+	std::vector<int> test (lb, le);
+
+	for (ft::vector<int>::iterator it = mytest.begin(); it != mytest.end(); it++)
+		std::cout << *it << std::endl;
+	std::cout << "lol : " << std::endl;
+	for (std::vector<int>::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << *it << std::endl;
+
+	//array.clear();
 
 /*std::cout << "empty test : " << myarray.empty() << " -- " << array.empty() << std::endl;
 
