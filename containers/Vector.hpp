@@ -129,6 +129,7 @@ vector& operator= (const vector& x){
 						_alloc.construct(&tmp[i], _c[i]);
 						_alloc.destroy(&_c[i]);
 					}
+					_alloc.deallocate(_c, _capacity);
 					_c = tmp;
 					_capacity = n;
 				}
@@ -263,7 +264,6 @@ vector& operator= (const vector& x){
 			{
 				size_type dist = position - begin();
 				size_type n = last - first;
-				std::cout << "dist - n : " << dist << " " << n << std::endl;
 				if (_size + n > _capacity)
 				{
 					if (n > _size)

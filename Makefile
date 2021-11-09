@@ -3,11 +3,16 @@ INCLUDES =	containers/Vector.hpp\
 			iterators/RandomAccessIterator.hpp\
 			iterators/ReverseIterator.hpp\
 			tools/tools.hpp\
-			tools/type_traits.hpp
+			tools/type_traits.hpp\
+			ft_tester/includes/main.hpp
 
-SRCS =  ft.cpp
+SRCS =	ft_tester/vector_test.cpp\
+		ft_tester/main.cpp
 
-SRCS_STL = stl.cpp
+INCLUDES_STL =	stl_tester/includes/main.hpp
+
+SRCS_STL =	stl_tester/vector_test.cpp\
+			stl_tester/main.cpp
 
 NAME = ft_containers
 
@@ -24,7 +29,7 @@ OBJS_STL = $(SRCS_STL:.cpp=.o)
 .cpp.o:
 		$(CC) $(FLAGS) -c $< -o $(<:.cpp=.o)
 
-$(NAME):	$(OBJS) $(INCLUDES)
+$(NAME):	$(OBJS) $(INCLUDES) $(INCLUDES_STL)
 			$(CC) -o $(NAME) $(SRCS)
 			$(CC) -o $(NAME_STL) $(SRCS_STL)
 
