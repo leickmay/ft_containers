@@ -161,4 +161,24 @@ void	vector_test()
 	for (int i = 0; i < 5; i++)
 		test.get_allocator().destroy(&p[i]);
 	test.get_allocator().deallocate(p, 5);
+
+	std::cout << std::endl << "=== Relational operators ===" << std::endl;
+	std::cout << "v3 == copy : " << (v3 == copy) << std::endl;
+	std::cout << "v3 >= copy : " << (v3 >= copy) << std::endl;
+	std::cout << "v3 <= copy : " << (v3 <= copy) << std::endl;
+	std::cout << "v3 != copy : " << (v3 != copy) << std::endl;
+
+	ft::vector<int> vec2;
+	for (int i = 0; i < 5; i++)
+		vec2.push_back(i + 1);
+	std::cout << "comparisons between vec2 : " << std::endl;
+	for (ft::vector<int>::iterator it = vec2.begin(); it != vec2.end(); it++)
+	std::cout << *it << std::endl;
+	std::cout << "and vec : " << std::endl;
+	for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+	std::cout << *it << std::endl;
+	std::cout << "vec2 < vec : " << (vec2 < vec) << std::endl;
+	std::cout << "vec2 <= vec : " << (vec2 <= vec) << std::endl;
+	std::cout << "vec2 > vec : " << (vec2 > vec) << std::endl;
+	std::cout << "vec2 >= vec : " << (vec2 >= vec) << std::endl;
 }
