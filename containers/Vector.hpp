@@ -40,7 +40,8 @@ namespace ft
 			};
 //range (3)	
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()){
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = NULL){
 				size_type l = last - first;
 				_size = l;
 				_capacity = l;
@@ -59,7 +60,7 @@ namespace ft
 				_alloc = x._alloc;
 				_c = _alloc.allocate(_capacity);
 				for (size_type i = 0; i <_size; i++)
-					_c[i] = _alloc.construct(&_c[i], x._c[i]);
+					_alloc.construct(&_c[i], x._c[i]);
 			}
 //destructor
 ~vector(){
@@ -75,7 +76,7 @@ vector& operator= (const vector& x){
 		_alloc = x._alloc;
 		_c = _alloc.allocate(_capacity);
 		for (size_type i = 0; i <_size; i++)
-			_c[i] = _alloc.construct(&_c[i], x._c[i]);
+			_alloc.construct(&_c[i], x._c[i]);
 	}
 	return *this;
 }
@@ -98,18 +99,18 @@ vector& operator= (const vector& x){
 			void		resize (size_type n, value_type val = value_type()){
 				if (n < _size)
 				{
-					for (int i = n; i < _size; i++)
+					for (size_type i = n; i < _size; i++)
 						_alloc.destroy(&_c[i]);
 				}
 				else if (n < _capacity)
 				{
-					for (int i = _size; i < n; i++)
+					for (size_type i = _size; i < n; i++)
 						_alloc.construct(&_c[i], val);
 				}
 				if (n > _capacity)
 				{
 					reserve(n);
-					for (int i = _size; i < n; i++)
+					for (size_type i = _size; i < n; i++)
 						_alloc.construct(&_c[i], val);
 				}
 				_size = n;
@@ -195,7 +196,7 @@ vector& operator= (const vector& x){
 				if (n > _capacity)
 				{
 					pointer tmp = _alloc.allocate(n);
-					for (int i = 0; i < n; i++)
+					for (size_type i = 0; i < n; i++)
 					{
 						_alloc.construct(&tmp[i], val);
 						_alloc.destroy(&_c[i]);
@@ -206,7 +207,7 @@ vector& operator= (const vector& x){
 				}
 				else
 				{
-					for (int i = 0; i < n; i++)
+					for (size_type i = 0; i < n; i++)
 					{
 						_alloc.destroy(&_c[i]);
 						_alloc.construct(&_c[i], val);
@@ -232,70 +233,30 @@ vector& operator= (const vector& x){
 			iterator insert (iterator position, const value_type& val){
 				if (_size + 1 > _capacity)
 					_reAlloc();
-				int i = _size - 1;
-				iterator it = end();
-				_alloc.construct(&_c[_size], _c[i]);
-				_size++;
-				it--;
-				while (it != position && i > 0)
-				{
-					_alloc.destroy(&_c[i]);    
+				size_type dist = position - begin();
+				for (size_type i = _size; i > dist; i--)
 					_alloc.construct(&_c[i], _c[i - 1]);
-					i--;
-					it--;
-				}
-				_alloc.destroy(&_c[i]);
-				_alloc.construct(&_c[i], val);
-				return it;
+				_alloc.construct(&_c[dist], val);
+				_size++;
+				return position;
+
 			};
 			//fill (2)	
 			void insert (iterator position, size_type n, const value_type& val){
-				(void) position;
-			if (n <= 0 )
-				return;
-			if (n + _size > _capacity && n + _size <= _capacity * 2)
-				_reAlloc();
-			else
-				reserve(_size + n);
-			for (size_type i = 0; i < _size; i++){
-				_alloc.construct(&_c[_size - 1 + n - i], _c[_size - 1 - i]);
-				_alloc.destroy(&_c[_size - 1 - i]);
-			}
-				//_c[_size - 1 + n - i] = _c[_size - 1 - i];
-			for (size_type i = 0; i < n; i++){
-				_alloc.destroy(&_c[i]);
-				_alloc.construct(&_c[i], val);
-			}
-		//_c[i] = val;
-	_size += n;
+				size_type dist = position - begin();
+				if (n <= 0 )
+					return;
+				if (n + _size > _capacity && n + _size <= _capacity * 2)
+					_reAlloc();
+				else
+					reserve(_size + n);
+				_size += n;
+				for (size_type i = _size - 1; i > dist; i--)
+					_alloc.construct(&_c[i], _c[i - n]);
+				for (size_type i = 0; i < n; i++)
+					_alloc.construct(&_c[dist + i], val);
 }
 //range (3)	
-			/*template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last,
-				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = NULL){
-					size_type dist = last - first;
-					size_type l = position - begin();
-					std::cout << " l - dist : " << l << " " << dist << std::endl;
-					if (dist <= 0 )
-						return;
-					if (dist + _size > _capacity && dist + _size <= _capacity * 2)
-						_reAlloc();
-					else
-						reserve(_size + dist);
-					for (size_type i = 0; i < l; i++){
-						_alloc.construct(&_c[_size - 1 + dist - i], _c[_size - 1 - i]);
-						_alloc.destroy(&_c[_size - 1 - i]);
-					}
-					size_type i = position - begin();
-					for (size_type j = 0; j < dist; j++){
-						_alloc.destroy(&_c[i]);
-						_alloc.construct(&_c[i], *first);
-						first++;
-						i++;
-					}
-					//if ()
-					_size += dist;
-				}*/
 			template <class InputIterator>
 			void insert(iterator position, InputIterator first, InputIterator last,
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
@@ -314,10 +275,7 @@ vector& operator= (const vector& x){
 				for (size_type i = _size - 1; i > dist; i--)
 					_alloc.construct(&_c[i], _c[i - n]);
 				for (size_type i = 0; i < n; i++)
-				{
-					std::cout << "dist + i = " << dist + i << std::endl;
 					_alloc.construct(&_c[dist + i], *(first + i));
-				}
 			}
 			iterator erase (iterator position){
 				size_type dist = position - begin();
@@ -397,6 +355,7 @@ vector& operator= (const vector& x){
 						_alloc.construct(&tmp[i], _c[i]);
 						_alloc.destroy(&_c[i]);
 					}
+					_alloc.deallocate(_c, _capacity);
 					_c = tmp;
 					_capacity *= 2;
 				}
