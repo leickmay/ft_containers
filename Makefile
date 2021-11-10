@@ -1,4 +1,5 @@
 INCLUDES =	containers/Vector.hpp\
+			containers/Stack.hpp\
 			iterators/iterator_traits.hpp\
 			iterators/RandomAccessIterator.hpp\
 			iterators/ReverseIterator.hpp\
@@ -7,11 +8,13 @@ INCLUDES =	containers/Vector.hpp\
 			ft_tester/includes/main.hpp
 
 SRCS =	ft_tester/vector_test.cpp\
+		ft_tester/stack_test.cpp\
 		ft_tester/main.cpp
 
 INCLUDES_STL =	stl_tester/includes/main.hpp
 
 SRCS_STL =	stl_tester/vector_test.cpp\
+			stl_tester/stack_test.cpp\
 			stl_tester/main.cpp
 
 NAME = ft_containers

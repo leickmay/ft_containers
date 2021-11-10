@@ -234,17 +234,20 @@ namespace ft
 			iterator insert (iterator position, const value_type& val){
 				if (_size + 1 > _capacity)
 					_reAlloc();
-				size_type dist = position - begin();
+				size_type dist = 0;
+				if (_size > 0)
+					dist = position - begin();
 				for (size_type i = _size; i > dist; i--)
 					_alloc.construct(&_c[i], _c[i - 1]);
 				_alloc.construct(&_c[dist], val);
 				_size++;
 				return position;
-
 			};
 			//fill (2)	
 			void insert (iterator position, size_type n, const value_type& val){
-				size_type dist = position - begin();
+				size_type dist = 0;
+				if (_size > 0)
+					dist = position - begin();
 				if (n <= 0 )
 					return;
 				if (n + _size > _capacity && n + _size <= _capacity * 2)
@@ -262,7 +265,9 @@ namespace ft
 			void insert(iterator position, InputIterator first, InputIterator last,
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
-				size_type dist = position - begin();
+				size_type dist = 0;
+				if (_size > 0)
+					dist = position - begin();
 				size_type n = last - first;
 				if (_size + n > _capacity)
 				{

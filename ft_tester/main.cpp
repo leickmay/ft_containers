@@ -11,5 +11,9 @@ int	main(int ac, char **av)
 	if (arg == "vector")
 		vector_test();
 	
+	if (arg == "stack")
+		stack_test();
+		
+
 	return 0;
 }
