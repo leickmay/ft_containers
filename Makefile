@@ -32,7 +32,7 @@ OBJS_STL = $(SRCS_STL:.cpp=.o)
 .cpp.o:
 		$(CC) $(FLAGS) -c $< -o $(<:.cpp=.o)
 
-$(NAME):	$(OBJS) $(INCLUDES) $(INCLUDES_STL)
+$(NAME):	$(OBJS) $(OBJS_STL) $(INCLUDES) $(INCLUDES_STL)
 			$(CC) -o $(NAME) $(SRCS)
 			$(CC) -o $(NAME_STL) $(SRCS_STL)
 
