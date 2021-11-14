@@ -10,10 +10,9 @@ int	main(int ac, char **av)
 	std::string arg = av[1];
 	if (arg == "vector")
 		vector_test();
-	
 	if (arg == "stack")
 		stack_test();
-		
+
 
 	return 0;
 }
