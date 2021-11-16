@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <iostream>
+#include "../iterators/BstIterator.hpp"
 
 namespace ft 
 {
@@ -99,6 +100,10 @@ namespace ft
 				}
 				_root = _deepRemove(_root, key);
 			}
+
+			//Getters
+			node_ptr	getRoot() const {return _root;}
+			size_type	getSize() const {return _size;}
 
 		private:
 			node_ptr	_root;
