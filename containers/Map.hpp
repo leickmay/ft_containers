@@ -39,12 +39,12 @@ namespace ft{
 			explicit map (const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type());
 //range 	(2)	
-			template <class InputIterator>
+			/*template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 			const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type());
 //copy (	3)	
-			map (const map& x);
+			map (const map& x);*/
 
 		private:
 			ft::bst<key_type, mapped_type>	_c;

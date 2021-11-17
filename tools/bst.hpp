@@ -1,7 +1,6 @@
 #pragma once
 #include <algorithm>
 #include <iostream>
-#include "../iterators/BstIterator.hpp"
 
 namespace ft 
 {
@@ -37,6 +36,8 @@ namespace ft
 			std::cout << "size : " << _size << std::endl;
 		}
 		/*************DEBUG**********/
+
+		iterator root() {return _root;}
 			node_ptr research(key_type key)
 			{
 				node_ptr tmp = _root;
