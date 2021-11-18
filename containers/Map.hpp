@@ -10,17 +10,29 @@
 
 
 namespace ft{
-	template < class Key, /* map::key_type */
-	class T, /* map::mapped_type */
-	class Compare = less<Key>, /* map::key_compare*/
-	class Alloc = std::allocator<pair<const Key,T> > /* map::allocator_type*/
+	template < class Key,
+	class T, class Compare = less<Key>, class Alloc = std::allocator<pair<const Key,T> > 
 	> class map{
 		public:
 			typedef Key										key_type;
 			typedef T										mapped_type;
 			typedef ft::pair<const key_type, mapped_type>	value_type;
 			typedef less<key_type>							key_compare;
-			//value_compare to add
+
+			class value_compare
+			{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+				protected:
+					Compare comp;
+					//value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator() (const value_type& x, const value_type& y) const
+					{
+						return comp(x.first, y.first);
+					}
+			};
 
 			typedef Alloc allocator_type;
 			typedef typename allocator_type::reference			reference;
@@ -28,16 +40,19 @@ namespace ft{
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
 
-			typedef ft::BstIterator<value_type>					iterator;
-			typedef ft::BstIterator<const value_type>			const_iterator;
-			typedef ft::reverse_iterator<iterator>				reverse_iterator;
-			typedef ft::reverse_iterator<const iterator>		const_reverse_iterator;
+			typedef typename ft::bst<value_type, value_compare>::iterator				iterator;
+			typedef typename ft::bst<value_type, value_compare>::const_iterator			const_iterator;
+			typedef typename ft::bst<value_type, value_compare>::reverse_iterator		reverse_iterator;
+			typedef typename ft::bst<value_type, value_compare>::const_reverse_iterator	const_reverse_iterator;
+
 			typedef size_t										size_type;
 			typedef ptrdiff_t									difference_type;
 
 //empty 	(1)
 			explicit map (const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type());
+			const allocator_type& alloc = allocator_type()): _alloc(alloc), _key_comp(comp){
+				_value_comp = value_compare();
+			}
 //range 	(2)	
 			/*template <class InputIterator>
 			map (InputIterator first, InputIterator last,
@@ -46,9 +61,22 @@ namespace ft{
 //copy (	3)	
 			map (const map& x);*/
 
+			ft::pair<iterator,bool> insert (const value_type& val)
+			{
+				pair<iterator, bool> ret;
+				ret = _c.insert(val);
+				return ret;
+			};
+
+			iterator begin(){
+				return _c.begin();
+			};
+
 		private:
-			ft::bst<key_type, mapped_type>	_c;
+			ft::bst<value_type, key_compare, allocator_type>	_c;
 			allocator_type					_alloc;
+			key_compare						_key_comp;
+			value_compare					_value_comp;
 
 	};
 }

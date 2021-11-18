@@ -1,28 +1,47 @@
 #pragma once
 #include <algorithm>
 #include <iostream>
+#include "pair.hpp"
+#include "../iterators/BstIterator.hpp"
+#include "../iterators/ReverseIterator.hpp"
 
 namespace ft 
 {
-	template <class Key, class T>
+	template < class T>
+	struct node
+	{
+		typedef T	value_type;
+
+		value_type	data;
+		node		*left;
+		node		*right;
+		node		*parent;
+	};
+
+	template <class T, class Compare, class Alloc = std::allocator< node<T> > >
 	class bst
 	{
 		public:
 			typedef T		value_type;
-			typedef Key		key_type;
+			typedef Compare	key_compare;
+			typedef Alloc	allocator_type;
+
 			typedef size_t	size_type;
 
-			struct node
-			{
-				key_type	key;
-				value_type	data;
-				node		*left;
-				node		*right;
-				node		*parent;
-			};
-			typedef node 	*node_ptr;
+			typedef node<value_type>	node;
+			typedef node				*node_ptr;
 
-			bst() : _size(0), _root(NULL) {};
+			typedef ft::BstIterator<node>				iterator;
+			typedef ft::BstIterator<const node>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>		reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+
+
+			bst(const key_compare& comp = key_compare(), 
+			const allocator_type& alloc = allocator_type()): _alloc(alloc), _comp(comp){
+				_size = 0;
+				_root = NULL;
+			};
 			~bst()
 			{
 				if (_root)
@@ -36,17 +55,22 @@ namespace ft
 			std::cout << "size : " << _size << std::endl;
 		}
 		/*************DEBUG**********/
-
-		iterator root() {return _root;}
-			node_ptr research(key_type key)
+		iterator begin() {
+			node_ptr tmp = _root;
+			while (tmp->left)
+				tmp = tmp->left;
+			return tmp;
+		}
+		//node_ptr root() {return _root;}
+			node_ptr research(value_type val)
 			{
 				node_ptr tmp = _root;
 
 				while (tmp != NULL) //tant qu'on a pas atteint les feuilles de l'arbre
 				{
-					if (key == tmp->key) //égalité -> on a trouvé notre élément
+					if (val->first == tmp->val->first) //égalité -> on a trouvé notre élément
 						return tmp; //du coup on le retourne
-					else if (key < tmp->key)// < on va donc chercher dans le sous arbre gauche
+					else if (val->first < tmp->val->first)// < on va donc chercher dans le sous arbre gauche
 						tmp = tmp->left;
 					else // > on regarde donc de le sous arbre droit
 						tmp = tmp->right;
@@ -54,11 +78,11 @@ namespace ft
 				return NULL; //on a pas trouvé l'élément -> return NULL
 			}
 
-			void insert(key_type key, value_type val)
+			ft::pair<node_ptr, bool> insert(value_type val)
 			{
 				//if (!_root)
 				//	return ;
-				node_ptr n = _new_node(key, val); //on crée le noeud
+				node_ptr n = _new_node(val); //on crée le noeud
 				node_ptr tmp = _root; //ptr tmp sur root
 				node_ptr buf = NULL; //ptr buf qui représente le noeud parent de tmp
 				//donc NULL car le parent de la racine est toujours NULL
@@ -66,15 +90,15 @@ namespace ft
 				while (tmp != NULL) //on recherche l'endroit ou insérer le nouveau noeud
 				{
 					buf = tmp;
-					if (n->key < tmp->key) //cherche à gauche
+					if (n->data.first < tmp->data.first) //cherche à gauche
 						tmp = tmp->left;
-					else if (n->key > tmp->key) //à droite
+					else if (n->data.first > tmp->data.first) //à droite
 						tmp = tmp->right;
 					else //si on retrouve le noeud -> erreur, on ne fait rien
 					{
-						std::cout << "Error: node <"<< key << "> already exist!" << std::endl;
+						std::cout << "Error: node <"<< val.first << "> already exist!" << std::endl;
 						delete n; //ne pas oublier de del le noeud créé
-						return ;
+						return tmp->data;
 					}
 				}
 
@@ -83,23 +107,24 @@ namespace ft
 				n->parent = buf;
 				if (buf == NULL)
 					_root = n;
-				else if (n->key < buf->key)
+				else if (n->data.first < buf->data.first)
 					buf->left = n;
 				else
 					buf->right = n;
 				_size++; //size++ évidemment 
+				return n->data;
 			}
 
-			void	remove(key_type key)
+			void	remove(value_type val)
 			{
 				if (!_root)
 					return ;
-				if (!research(key))
+				if (!research(val->first))
 				{
-					std::cout << "Error: node <"<< key << "> not exist!" << std::endl;
+					std::cout << "Error: node <"<< val->first << "> not exist!" << std::endl;
 					return ;
 				}
-				_root = _deepRemove(_root, key);
+				_root = _deepRemove(_root, val->first);
 			}
 
 			//Getters
@@ -107,28 +132,31 @@ namespace ft
 			size_type	getSize() const {return _size;}
 
 		private:
-			node_ptr	_root;
-			size_type	_size;
+			node_ptr		_root;
+			size_type		_size;
+			allocator_type	_alloc;
+			key_compare		_comp;
 
-			node_ptr _new_node(key_type key, value_type val)
+			node_ptr _new_node(value_type val)
 			{
+				//node_ptr ret = _alloc.allocate(1);
 				node_ptr ret = new node;
+
 
 				ret->left = NULL;
 				ret->right = NULL;
 				ret->parent = NULL;
-				ret->key = key;
-				ret->data = val;
+				ret->data(val.first, val.second);
 
 				return ret;
 			} //fonction qui créée un noeud vierge, et init la key et la value
 
-			node_ptr	_deepRemove(node_ptr root, key_type key)
+			node_ptr	_deepRemove(node_ptr root, value_type val)
 			{
-				if (key < root->key)
-					root->left = _deepRemove(root->left, key);
-				else if (key > root->key)
-					root->right = _deepRemove(root->right, key);
+				if (val->first < root->val->first)
+					root->left = _deepRemove(root->left, val);
+				else if (val->first > root->val->first)
+					root->right = _deepRemove(root->right, val);
 				else
 				{
 					if (root->left == NULL)
@@ -145,10 +173,9 @@ namespace ft
 					}
 					node_ptr tmp = _min(root->right);
 
-					root->key = tmp->key;
-					root->data = tmp->data;
+					root->data = tmp->val;
 
-					root->right = _deepRemove(root->right, tmp->key);
+					root->right = _deepRemove(root->right, val);
 				}
 				_size--;
 				return _root;

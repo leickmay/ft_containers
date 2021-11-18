@@ -4,57 +4,55 @@
 #include "../tools/bst.hpp"
 
 namespace ft{
-	template < class Key, class T >
+	template < class T >
 	class BstIterator{
 		public:
 		//typedef
-			typedef typename ft::bst<Key, T>::node		node;
-			typedef *node						node_ptr;
-			//typedef T								value_type;
-			//typedef T*								node_ptr;
-			//typedef typename T::value_type			data;
+			typedef T								value_type;
+			typedef T*								node_ptr;
+			typedef typename T::value_type			data;
 
-			//typedef data&							reference;
-			//typedef data*							pointer;
+			typedef data&							reference;
+			typedef data*							pointer;
 
 			typedef ptrdiff_t						difference_type;
-			typedef std::random_access_iterator_tag	iterator_category;
+			typedef std::bidirectional_iterator_tag	iterator_category;
 
 			
 
 		//constructors
-			BstIterator():_root(NULL) {};
-			BstIterator(node_ptr root):_root(root) {};
+			BstIterator():_it(NULL) {};
+			BstIterator(node_ptr it):_it(it) {};
 			~BstIterator() {};
-			BstIterator (BstIterator const& other): _root(other._root) {};
+			BstIterator (BstIterator const& other): _it(other._it) {};
 			BstIterator &operator=(BstIterator const& other) {
 				if (this != &other)
-					_root = other._root;
+					_it = other._it;
 				return *this; 
 			};
 
 		//Dereference
-			reference operator*() {return *_root;}
-			pointer operator->() const {return &(operator*());}
+			reference operator*() {return _it->data;}
+			pointer operator->() const {return &_it->data;}
 
 		//Incrementation
-			BstIterator	&operator++() {
-				if (_root->right == NULL)
+			/*BstIterator	&operator++() {
+				if (_it->right == NULL)
 				{
 					node_ptr tmp;
-					tmp = _root;
-					_root = _root->parent;
-					while (_root->key < tmp->key)
-						_root = _root->parent;
+					tmp = _it;
+					_it = _it->parent;
+					while (_it->key < tmp->key)
+						_it = _it->parent;
 				}
 				else
 				{
-					_root = _root->right;
-					while(_root->left)
-					_root = _root->left;
+					_it = _it->right;
+					while(_it->left)
+					_it = _it->left;
 				}
 				return *this;
-			}
+			}*/
 			/*BstIterator	operator++(int) {
 				BstIterator ret(*this);
 				_root = _root->right;
@@ -77,7 +75,7 @@ namespace ft{
 					_root = _root->parent;
 				return ret;*/
 		private:
-			node_ptr _root;	
+			node_ptr _it;	
 			
 
 			//comparisons
