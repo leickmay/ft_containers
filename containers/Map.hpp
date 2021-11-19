@@ -16,7 +16,7 @@ namespace ft{
 		public:
 			typedef Key										key_type;
 			typedef T										mapped_type;
-			typedef ft::pair<const key_type, mapped_type>	value_type;
+			typedef ft::pair<const key_type, mapped_type>			value_type;
 			typedef std::less<key_type>						key_compare;
 
 			class value_compare
@@ -60,6 +60,10 @@ namespace ft{
 			const allocator_type& alloc = allocator_type());
 //copy (	3)	
 			map (const map& x);*/
+			iterator begin(){return _c.begin();}
+			const_iterator begin() const{return _c.begin();}
+			iterator end() {return _c.end();}
+			const_iterator end() const {return _c.end();}
 
 			ft::pair<iterator,bool> insert (const value_type& val)
 			{
@@ -68,15 +72,13 @@ namespace ft{
 				return ret;
 			};
 
-			iterator begin(){
-				return _c.begin();
-			};
+
 
 		private:
-			ft::bst<value_type, key_compare, allocator_type>	_c;
-			allocator_type					_alloc;
-			key_compare						_key_comp;
-			value_compare					_value_comp;
+			ft::bst<value_type, key_compare>	_c;
+			allocator_type						_alloc;
+			key_compare							_key_comp;
+			value_compare						_value_comp;
 
 	};
 }

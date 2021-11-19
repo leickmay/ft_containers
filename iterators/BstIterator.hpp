@@ -36,13 +36,13 @@ namespace ft{
 			pointer operator->() const {return &_it->data;}
 
 		//Incrementation
-			/*BstIterator	&operator++() {
+			BstIterator	&operator++() {
 				if (_it->right == NULL)
 				{
 					node_ptr tmp;
 					tmp = _it;
 					_it = _it->parent;
-					while (_it->key < tmp->key)
+					while (_it->data.first < tmp->data.first)
 						_it = _it->parent;
 				}
 				else
@@ -52,37 +52,55 @@ namespace ft{
 					_it = _it->left;
 				}
 				return *this;
-			}*/
-			/*BstIterator	operator++(int) {
+			}
+			BstIterator	operator++(int) {
 				BstIterator ret(*this);
-				_root = _root->right;
-				while(_root->left)
-					_root = _root->left;
+				if (_it->right == NULL)
+				{
+					node_ptr tmp;
+					tmp = _it;
+					_it = _it->parent;
+					while (_it->data.first < tmp->data.first)
+						_it = _it->parent;
+				}
+				else
+				{
+					_it = _it->right;
+					while(_it->left)
+					_it = _it->left;
+				}
 				return ret;
 			}
+			
 			BstIterator	&operator--() {
-				if (_root->left)
-					_root = _root->left;
+				if (_it->left)
+				{
+					_it = _it->left;
+					while (_it->right)
+						_it = _it->right;
+				}
 				else
-					_root = _root->parent;
+					_it = NULL;
 				return *this;
 			}
 			BstIterator	operator--(int) {
 				BstIterator ret(*this);
-				if (_root->left)
-					_root = _root->left;
+				if (_it->left)
+				{
+					_it = _it->left;
+					while (_it->right)
+						_it = _it->right;
+				}
 				else
-					_root = _root->parent;
-				return ret;*/
+					_it = NULL;
+				return ret;
+			}
+
+		//Comparisons
+			bool					operator!=(BstIterator const& a){return (a._it != _it);};
+			bool					operator==(BstIterator const& a){return (a._it == _it);};
+
 		private:
-			node_ptr _it;	
-			
-
-			//comparisons
-			//bool					operator!=(BstIterator const& a){return (a._root != _root);};
-			//bool					operator==(BstIterator const& a){return (a._root == _root);};
-
-		
-			
+			node_ptr _it;
 	};
 }

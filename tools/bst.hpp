@@ -18,6 +18,8 @@ namespace ft
 		node		*left;
 		node		*right;
 		node		*parent;
+
+		node(value_type const &src) : data(src){}
 	};
 
 	template <class T, class Compare, class Alloc = std::allocator<node<T> > >
@@ -44,6 +46,7 @@ namespace ft
 				_size = 0;
 				_root = NULL;
 			};
+
 			~bst()
 			{
 				if (_root)
@@ -62,6 +65,10 @@ namespace ft
 			while (tmp->left)
 				tmp = tmp->left;
 			return tmp;
+		}
+
+		iterator end() {
+			return iterator(_root);
 		}
 		//node_ptr root() {return _root;}
 			node_ptr research(value_type val)
@@ -139,16 +146,13 @@ namespace ft
 			allocator_type	_alloc;
 			key_compare		_comp;
 
-			node_ptr _new_node(value_type &val)
+			node_ptr _new_node(const value_type &val)
 			{
 				node_ptr ret = _alloc.allocate(1);
 				_alloc.construct(ret, val);
-
-
 				ret->left = NULL;
 				ret->right = NULL;
 				ret->parent = NULL;
-				ret->data = val;
 
 				return ret;
 			} //fonction qui créée un noeud vierge, et init la key et la value
@@ -164,13 +168,15 @@ namespace ft
 					if (root->left == NULL)
 					{
 						node_ptr tmp = root->right;
-						delete root;
+						_alloc.deallocate(root, 1);
+						//delete root;
 						return tmp;
 					}
 					else if (root->right == NULL)
 					{
 						node_ptr tmp = root->left;
-						delete root;
+						_alloc.deallocate(root, 1);
+						//delete root;
 						return tmp;
 					}
 					node_ptr tmp = _min(root->right);
@@ -205,12 +211,14 @@ namespace ft
 					std::cout << "L----";
 					indent += "|  ";
 				}
-/*************DEBUG**********/
+
 				std::cout << root->data << std::endl;
 				_deepPrint(root->left, indent, false);
 				_deepPrint(root->right, indent, true);
 			}
 		}
+
+/*************DEBUG**********/
 
 			void		_deepClear(node_ptr root)
 			{
