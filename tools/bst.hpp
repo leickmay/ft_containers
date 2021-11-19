@@ -4,6 +4,8 @@
 #include "pair.hpp"
 #include "../iterators/BstIterator.hpp"
 #include "../iterators/ReverseIterator.hpp"
+#include "../tools/type_traits.hpp"
+#include "../tools/tools.hpp"
 
 namespace ft 
 {
@@ -18,7 +20,7 @@ namespace ft
 		node		*parent;
 	};
 
-	template <class T, class Compare, class Alloc = std::allocator< node<T> > >
+	template <class T, class Compare, class Alloc = std::allocator<node<T> > >
 	class bst
 	{
 		public:
@@ -31,9 +33,9 @@ namespace ft
 			typedef node<value_type>	node;
 			typedef node				*node_ptr;
 
-			typedef ft::BstIterator<node>				iterator;
-			typedef ft::BstIterator<const node>	const_iterator;
-			typedef typename ft::reverse_iterator<iterator>		reverse_iterator;
+			typedef ft::BstIterator<node>							iterator;
+			typedef ft::BstIterator<const node>						const_iterator;
+			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
@@ -78,7 +80,7 @@ namespace ft
 				return NULL; //on a pas trouvé l'élément -> return NULL
 			}
 
-			ft::pair<node_ptr, bool> insert(value_type val)
+			ft::pair<iterator, bool> insert(value_type val)
 			{
 				//if (!_root)
 				//	return ;
@@ -98,7 +100,7 @@ namespace ft
 					{
 						std::cout << "Error: node <"<< val.first << "> already exist!" << std::endl;
 						delete n; //ne pas oublier de del le noeud créé
-						return tmp->data;
+						return ft::make_pair<iterator, bool>(tmp, false);
 					}
 				}
 
@@ -112,7 +114,7 @@ namespace ft
 				else
 					buf->right = n;
 				_size++; //size++ évidemment 
-				return n->data;
+				return ft::make_pair<iterator, bool>(n, true);
 			}
 
 			void	remove(value_type val)
@@ -137,16 +139,16 @@ namespace ft
 			allocator_type	_alloc;
 			key_compare		_comp;
 
-			node_ptr _new_node(value_type val)
+			node_ptr _new_node(value_type &val)
 			{
-				//node_ptr ret = _alloc.allocate(1);
-				node_ptr ret = new node;
+				node_ptr ret = _alloc.allocate(1);
+				_alloc.construct(ret, val);
 
 
 				ret->left = NULL;
 				ret->right = NULL;
 				ret->parent = NULL;
-				ret->data(val.first, val.second);
+				ret->data = val;
 
 				return ret;
 			} //fonction qui créée un noeud vierge, et init la key et la value
