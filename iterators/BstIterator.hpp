@@ -18,8 +18,6 @@ namespace ft{
 			typedef ptrdiff_t						difference_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
 
-			
-
 		//constructors
 			BstIterator():_it(NULL) {};
 			BstIterator(node_ptr it):_it(it) {};
@@ -36,64 +34,38 @@ namespace ft{
 			pointer operator->() const {return &_it->data;}
 
 		//Incrementation
-			BstIterator	&operator++() {
-				if (_it->right == NULL)
-				{
-					node_ptr tmp;
-					tmp = _it;
-					_it = _it->parent;
-					while (_it->data.first < tmp->data.first)
-						_it = _it->parent;
-				}
+			BstIterator &operator++()
+			{
+				if (_it != NULL)
+					_it = _findNext();
+				return *this;
+			}
+
+			BstIterator operator++(int)
+			{
+				BstIterator tmp(*this);
+				++(*this);
+				return tmp;
+			}
+
+			BstIterator &operator--()
+			{
+				if (_it != NULL)
+					_it = _findPrev();
 				else
 				{
-					_it = _it->right;
-					while(_it->left)
-					_it = _it->left;
+					while (_it->parent)
+						_it = _it->parent;
+					_it = _findMax(_it);
 				}
 				return *this;
 			}
-			BstIterator	operator++(int) {
-				BstIterator ret(*this);
-				if (_it->right == NULL)
-				{
-					node_ptr tmp;
-					tmp = _it;
-					_it = _it->parent;
-					while (_it->data.first < tmp->data.first)
-						_it = _it->parent;
-				}
-				else
-				{
-					_it = _it->right;
-					while(_it->left)
-					_it = _it->left;
-				}
-				return ret;
-			}
-			
-			BstIterator	&operator--() {
-				if (_it->left)
-				{
-					_it = _it->left;
-					while (_it->right)
-						_it = _it->right;
-				}
-				else
-					_it = NULL;
-				return *this;
-			}
-			BstIterator	operator--(int) {
-				BstIterator ret(*this);
-				if (_it->left)
-				{
-					_it = _it->left;
-					while (_it->right)
-						_it = _it->right;
-				}
-				else
-					_it = NULL;
-				return ret;
+	
+			BstIterator operator--(int)
+			{
+				BstIterator tmp(*this);
+				--(*this);
+				return tmp;
 			}
 
 		//Comparisons
@@ -102,5 +74,54 @@ namespace ft{
 
 		private:
 			node_ptr _it;
+
+			node_ptr _findMin(node_ptr n)
+			{
+				while (n->left)
+					n = n->left;
+				return n;
+			}
+
+			node_ptr _findMax(node_ptr n)
+			{
+				while (n->right)
+					n = n->right;
+				return n;
+			}
+
+			node_ptr _findNext()
+			{
+				node_ptr n = _it;
+				node_ptr next = NULL;
+
+				if (n->right != NULL)
+					return _findMin(n->right);
+				
+				next = n->parent;
+				while (next != NULL && n == next->right)
+				{
+					n = next;
+					next = next->parent;
+				}
+				return next;
+			}
+
+			node_ptr _findPrev()
+			{
+				node_ptr n = _it;
+				node_ptr prev = NULL;
+
+				if (n->left != NULL)
+					return _findMax(n->left);
+				
+				prev = n->parent;
+				while (prev != NULL && n == prev->left)
+				{
+					n = prev;
+					prev = prev->parent;
+				}
+				return prev;
+			}
+
 	};
 }

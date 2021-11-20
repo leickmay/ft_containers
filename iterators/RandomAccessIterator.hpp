@@ -62,13 +62,7 @@ namespace ft{
 			difference_type			operator-(RandomAccessIterator const& a){return _ptr - a._ptr;}
 
 
-			//comparisons
-			bool					operator!=(RandomAccessIterator const& a){return (a._ptr != _ptr);}
-			bool					operator==(RandomAccessIterator const& a){return (a._ptr == _ptr);}
-			bool					operator>=(RandomAccessIterator const& a){return (a._ptr >= _ptr);}
-			bool					operator<=(RandomAccessIterator const& a){return (a._ptr <= _ptr);}
-			bool					operator>(RandomAccessIterator const& a){return (a._ptr > _ptr);}
-			bool					operator<(RandomAccessIterator const& a){return (a._ptr < _ptr);}
+
 
 
 			//offset derefence operator
@@ -76,4 +70,41 @@ namespace ft{
 		private:
 			pointer	_ptr;
 	};
+			//comparisons
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator!=(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() != rhs.base());
+	}
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator==(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() == rhs.base());
+	}
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator<(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() < rhs.base());
+	}
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator<=(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() <= rhs.base());
+	}
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator>(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() > rhs.base());
+	}
+	template <typename T>
+	typename ft::RandomAccessIterator<T>::difference_type
+	operator>=(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<T> rhs){
+		return (lhs.base() >= rhs.base());
+	}
+
+			/*bool					operator==(RandomAccessIterator const& a){return (a._ptr == _ptr);}
+			bool					operator>=(RandomAccessIterator const& a){return (a._ptr >= _ptr);}
+			bool					operator<=(RandomAccessIterator const& a){return (a._ptr <= _ptr);}
+			bool					operator>(RandomAccessIterator const& a){return (a._ptr > _ptr);}
+			bool					operator<(RandomAccessIterator const& a){return (a._ptr < _ptr);}*/
 }

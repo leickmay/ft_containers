@@ -39,6 +39,10 @@ void	vector_test()
 		std::cout << *it << std::endl;
 	std::cout << "begin : " << *vec.begin() << " - end : " << *vec.end() << " - rbegin : " << *vec.rbegin() << " - rend : " << *vec.rend() << std::endl;
 
+	std::cout << "new vector with reverse_it : " << std::endl;
+	for (std::vector<int>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++)
+		std::cout << *it << std::endl;
+
 	std::cout << std::endl << "=== Capacity ===" << std::endl;
 	std::cout << "size : " << vec.size() << " - max size : " << vec.max_size() << " - capacity : " << vec.capacity() << " - empty : " << vec.empty() << std::endl;
 	vec.resize(5);

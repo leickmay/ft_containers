@@ -22,6 +22,7 @@ namespace ft
 		node(value_type const &src) : data(src){}
 	};
 
+
 	template <class T, class Compare, class Alloc = std::allocator<node<T> > >
 	class bst
 	{
@@ -36,7 +37,7 @@ namespace ft
 			typedef node				*node_ptr;
 
 			typedef ft::BstIterator<node>							iterator;
-			typedef ft::BstIterator<const node>						const_iterator;
+			typedef ft::BstIterator<node>							const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -45,6 +46,7 @@ namespace ft
 			const allocator_type& alloc = allocator_type()): _alloc(alloc), _comp(comp){
 				_size = 0;
 				_root = NULL;
+				_last = _last_node();
 			};
 
 			~bst()
@@ -61,6 +63,8 @@ namespace ft
 		}
 		/*************DEBUG**********/
 		iterator begin() {
+			if (!_root)
+				return _last;
 			node_ptr tmp = _root;
 			while (tmp->left)
 				tmp = tmp->left;
@@ -68,14 +72,14 @@ namespace ft
 		}
 
 		iterator end() {
-			return iterator(_root);
+			return _last;
 		}
 		//node_ptr root() {return _root;}
 			node_ptr research(value_type val)
 			{
 				node_ptr tmp = _root;
 
-				while (tmp != NULL) //tant qu'on a pas atteint les feuilles de l'arbre
+				while (tmp != NULL && tmp != _last) //tant qu'on a pas atteint les feuilles de l'arbre
 				{
 					if (val->first == tmp->val->first) //égalité -> on a trouvé notre élément
 						return tmp; //du coup on le retourne
@@ -96,7 +100,7 @@ namespace ft
 				node_ptr buf = NULL; //ptr buf qui représente le noeud parent de tmp
 				//donc NULL car le parent de la racine est toujours NULL
 
-				while (tmp != NULL) //on recherche l'endroit ou insérer le nouveau noeud
+				while (tmp != NULL && tmp != _last) //on recherche l'endroit ou insérer le nouveau noeud
 				{
 					buf = tmp;
 					if (n->data.first < tmp->data.first) //cherche à gauche
@@ -115,12 +119,22 @@ namespace ft
 				//on init tous ses ptrs
 				n->parent = buf;
 				if (buf == NULL)
+				{
 					_root = n;
+					n->right = _last;
+					_last->parent = n;
+				}
 				else if (n->data.first < buf->data.first)
 					buf->left = n;
 				else
 					buf->right = n;
-				_size++; //size++ évidemment 
+				_size++; //size++ évidemment
+				if (tmp == _last)
+				{
+					std::cout << "pouic" << std::endl;
+					n->right = _last;
+					_last->parent = n;
+				}
 				return ft::make_pair<iterator, bool>(n, true);
 			}
 
@@ -142,6 +156,7 @@ namespace ft
 
 		private:
 			node_ptr		_root;
+			node_ptr		_last;
 			size_type		_size;
 			allocator_type	_alloc;
 			key_compare		_comp;
@@ -157,6 +172,15 @@ namespace ft
 				return ret;
 			} //fonction qui créée un noeud vierge, et init la key et la value
 
+			node_ptr _last_node()
+			{
+				node_ptr ret = _alloc.allocate(1);
+				ret->left = NULL;
+				ret->right = NULL;
+				ret->parent = NULL;
+
+				return ret;
+			}
 			node_ptr	_deepRemove(node_ptr root, value_type val)
 			{
 				if (val->first < root->val->first)
@@ -193,6 +217,13 @@ namespace ft
 			{
 				while (root->left != NULL)
 					root = root->left;
+				return root;
+			}
+
+			node_ptr	_max(node_ptr root)
+			{
+				while (root->right && root->right != _last)
+					root = root->right;
 				return root;
 			}
 			/*************DEBUG**********/

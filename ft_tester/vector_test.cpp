@@ -38,6 +38,16 @@ void	vector_test()
 		std::cout << *it << std::endl;
 	std::cout << "begin : " << *vec.begin() << " - end : " << *vec.end() << " - rbegin : " << *vec.rbegin() << " - rend : " << *vec.rend() << std::endl;
 
+	std::cout << "new vector with reverse_it : " << std::endl;
+	for (ft::vector<int>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++)
+		std::cout << *it << std::endl;
+
+	std::cout << "compare it with const_it : " << std::endl;
+	ft::vector<int>::iterator co = vec.begin();
+	ft::vector<int>::const_iterator cco = vec.begin();
+	std::cout << " both = vec.begin() : test == : " << (co == cco) << std::endl;
+	
+
 	std::cout << std::endl << "=== Capacity ===" << std::endl;
 	std::cout << "size : " << vec.size() << " - max size : " << vec.max_size() << " - capacity : " << vec.capacity() << " - empty : " << vec.empty() << std::endl;
 	vec.resize(5);

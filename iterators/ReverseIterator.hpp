@@ -29,28 +29,28 @@ namespace ft{
 				--tmp;
 				return *tmp;
 			}
-			reverse_iterator operator+ (difference_type n) const {return _it - n;}
+			reverse_iterator operator+ (difference_type n) const {return reverse_iterator(_it - n);}
 			reverse_iterator& operator++(){
-				_it--;
+				--_it;
 				return *this;
 			};
 			reverse_iterator  operator++(int){
 				reverse_iterator temp = *this;
-				--(*this);
+				--_it;
 				return temp;
 			};
 			reverse_iterator& operator+= (difference_type n){
 				_it -= n;
 				return *this;
 			};
-			reverse_iterator operator- (difference_type n) const {return _it + n;}
+			reverse_iterator operator- (difference_type n) const {return reverse_iterator(_it + n);}
 			reverse_iterator& operator--(){
-				_it++;
+				++_it;
 				return *this;
 			};
 			reverse_iterator  operator--(int){
 				reverse_iterator temp = *this;
-				++(*this);
+				++_it;
 				return temp;
 			};
 			reverse_iterator& operator-= (difference_type n){
@@ -58,7 +58,7 @@ namespace ft{
 				return *this;
 			};
 			pointer operator->() const {return &(operator*());}
-			reference operator[] (difference_type n) const {return base()[-n -1];}
+			reference operator[] (difference_type n) const {return *(_it - n - 1);}
 
 		private:
 			iterator_type _it;
