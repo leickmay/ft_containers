@@ -9,12 +9,14 @@ INCLUDES =	containers/Vector.hpp\
 
 SRCS =	ft_tester/vector_test.cpp\
 		ft_tester/stack_test.cpp\
+		ft_tester/map_test.cpp\
 		ft_tester/main.cpp
 
 INCLUDES_STL =	stl_tester/includes/main.hpp
 
 SRCS_STL =	stl_tester/vector_test.cpp\
 			stl_tester/stack_test.cpp\
+			stl_tester/map_test.cpp\
 			stl_tester/main.cpp
 
 NAME = ft_containers

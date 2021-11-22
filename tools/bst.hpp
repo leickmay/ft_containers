@@ -74,6 +74,11 @@ namespace ft
 		iterator end() {
 			return _last;
 		}
+
+		bool empty() const {return (_size == 0);}
+		size_type size() const {return _size;}
+		size_type	max_size() const {return _alloc.max_size();}
+
 		//node_ptr root() {return _root;}
 			node_ptr research(value_type val)
 			{
@@ -81,9 +86,9 @@ namespace ft
 
 				while (tmp != NULL && tmp != _last) //tant qu'on a pas atteint les feuilles de l'arbre
 				{
-					if (val->first == tmp->val->first) //égalité -> on a trouvé notre élément
+					if (val->first == tmp->data.first) //égalité -> on a trouvé notre élément
 						return tmp; //du coup on le retourne
-					else if (val->first < tmp->val->first)// < on va donc chercher dans le sous arbre gauche
+					else if (val->first < tmp->data.first)// < on va donc chercher dans le sous arbre gauche
 						tmp = tmp->left;
 					else // > on regarde donc de le sous arbre droit
 						tmp = tmp->right;
@@ -109,7 +114,6 @@ namespace ft
 						tmp = tmp->right;
 					else //si on retrouve le noeud -> erreur, on ne fait rien
 					{
-						std::cout << "Error: node <"<< val.first << "> already exist!" << std::endl;
 						delete n; //ne pas oublier de del le noeud créé
 						return ft::make_pair<iterator, bool>(tmp, false);
 					}
@@ -131,7 +135,6 @@ namespace ft
 				_size++; //size++ évidemment
 				if (tmp == _last)
 				{
-					std::cout << "pouic" << std::endl;
 					n->right = _last;
 					_last->parent = n;
 				}

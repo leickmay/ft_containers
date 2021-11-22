@@ -12,6 +12,13 @@ int	main(int ac, char **av)
 		vector_test();
 	if (arg == "stack")
 		stack_test();
-
+	if (arg == "map")
+		map_test();
+	if (arg == "all")
+	{
+		vector_test();
+		stack_test();
+		map_test();
+	}
 	return 0;
 }

@@ -16,7 +16,7 @@ namespace ft{
 		public:
 			typedef Key										key_type;
 			typedef T										mapped_type;
-			typedef ft::pair<const key_type, mapped_type>			value_type;
+			typedef ft::pair<const key_type, mapped_type>	value_type;
 			typedef std::less<key_type>						key_compare;
 
 			class value_compare
@@ -69,12 +69,27 @@ namespace ft{
 			reverse_iterator rend(){return reverse_iterator(begin());}
 			const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
 
+
+			//Capacity
+			bool empty() const {return _c.empty();}
+			size_type size() const {return _c.size();}
+			size_type	max_size() const {return _alloc.max_size();}
+
+			//Element Access
+			mapped_type& operator[] (const key_type& k)
+			{
+				return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
+			}
+
+			//Modifiers
 			ft::pair<iterator,bool> insert (const value_type& val)
 			{
-				pair<iterator, bool> ret;
-				ret = _c.insert(val);
-				return ret;
+				return _c.insert(val);
 			};
+
+			iterator insert (iterator position, const value_type& val){
+
+			}
 
 
 
