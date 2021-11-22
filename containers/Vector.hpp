@@ -406,7 +406,8 @@ bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
 
 	template <class T, class Alloc>
 	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+		//if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+		if (lhs == rhs)
 			return true;
 		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
