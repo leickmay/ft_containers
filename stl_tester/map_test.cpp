@@ -47,4 +47,54 @@ void map_test()
 	std::cout << "new iteration : " << std::endl;
 	for (std::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+
+	std::map<int, std::string>::iterator po = test.begin();
+	po++;
+	po++;
+	po++;
+	std::cout << "new iterator : " << po->first << " - " << po->second << std::endl;
+	std::cout << "insert with position it, 11 and 13 then display map : " << std::endl;
+	test.insert(po, std::make_pair(11, "onze"));
+	test.insert(po, std::make_pair(13, "treize"));
+
+	for (std::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+
+std::cout << "New map, insert with iterators of the old one : " << std::endl;
+	std::map<int, std::string> test2;
+	test2.insert(po, --test.end());
+	for (std::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+std::cout << "size : " << test2.size() << std::endl;
+	std::cout << "erase ++begin : " << std::endl;
+	test2.erase(++test2.begin());
+	for (std::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+		std::cout << "----" << std::endl;
+	for (std::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+	std::cout << "erase(21) : " << std::endl;
+	std::cout << "size : " << test2.size() << std::endl;
+	test2.erase(21);
+	for (std::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+	std::cout << "size : " << test2.size() << std::endl;
+
+	std::cout << "Take back first map : " << std::endl;
+	for (std::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+
+	std::map<int, std::string>::iterator er = test.begin();
+	std::map<int, std::string>::iterator ere = test.end();
+
+	er++;
+	er++;
+	ere--;
+	ere--;
+
+	std::cout << "erase from iterator " << er->first << " to " << ere->first << std::endl;
+	test.erase(er, ere);
+	for (std::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
+	
 }

@@ -72,6 +72,10 @@ namespace ft{
 			bool					operator!=(BstIterator const& a){return (a._it != _it);};
 			bool					operator==(BstIterator const& a){return (a._it == _it);};
 
+		//Getter
+
+			node_ptr getCurrent () const { return _it; }
+
 		private:
 			node_ptr _it;
 

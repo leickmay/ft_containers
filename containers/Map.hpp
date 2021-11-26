@@ -88,11 +88,110 @@ namespace ft{
 			};
 
 			iterator insert (iterator position, const value_type& val){
-
+				return _c.insert(position, val);
 			}
 
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last){
+				while (first != last)
+					_c.insert(*first++);
+			}
 
+			void erase (iterator position){
+				_c.remove(*position);
+			}
 
+			size_type erase (const key_type& k){
+				return _c.erase(ft::make_pair(k, mapped_type()));
+			}
+
+			void erase (iterator first, iterator last){
+				int i = 0;
+				while (first != last)
+				{
+					std::cout << "boucle erase : " << i++ << " - first : " << first->first << " - second : " << first->second << std::endl;
+					_c.remove(*first++);
+				}
+			}
+
+			void swap (map& x)
+			{
+				allocator_type tmpAlloc = _alloc;
+				key_compare tmpKeyComp = _key_comp;
+				value_compare tmpValueComp = _value_comp;
+
+				_alloc = x._alloc;
+				_key_comp = x._key_comp;
+				_value_comp = x._value_comp;
+
+				x._alloc = tmpAlloc;
+				x._key_comp = tmpKeyComp;
+				x._value_comp = tmpValueComp;
+
+				_c.swap(x._c);
+			}
+
+		//Observers
+
+			key_compare key_comp() const {return _key_comp;}
+			value_compare value_comp() const {return _value_comp;}
+
+		//Operations
+
+			iterator find (const key_type& k)
+			{
+				iterator ret = _c.research(ft::make_pair(k, mapped_type()));
+				if (ret == NULL)
+					return end();
+				return ret;
+			}
+
+			const_iterator find (const key_type& k) const
+			{
+				iterator ret = _c.research(ft::make_pair(k, mapped_type()));
+				if (ret == NULL)
+					return end();
+				return ret;
+			}
+
+			size_type count (const key_type& k) const
+			{
+				return _c.count(ft::make_pair(k, mapped_type()));
+			}
+
+			iterator lower_bound (const key_type& k)
+			{
+				return _c.lower_bound(ft::make_pair(k, mapped_type()));
+			}
+			const_iterator lower_bound (const key_type& k) const;
+			{
+				return _c.lower_bound(ft::make_pair(k, mapped_type()));
+			}
+
+			iterator upper_bound (const key_type& k)
+			{
+				return _c.upper_bound(ft::make_pair(k, mapped_type()));
+			}
+			const_iterator upper_bound (const key_type& k) const
+			{
+				return _c.upper_bound(ft::make_pair(k, mapped_type()));
+			}
+			ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+			{
+				const_iterator low = lower_bound(k);
+				const_iterator up = upper_bound(k);
+				return ft::make_pair(low, up);
+			}
+			ft::pair<iterator,iterator> equal_range (const key_type& k)
+			{
+				iterator low = lower_bound(k);
+				iterator up = upper_bound(k);
+				return ft::make_pair(low, up);
+			}
+
+		//Allocator
+			allocator_type get_allocator() const { return _alloc;}
+	
 		private:
 			ft::bst<value_type, key_compare>	_c;
 			allocator_type						_alloc;
