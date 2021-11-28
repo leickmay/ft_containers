@@ -113,4 +113,10 @@ test.swap(test2);
 	f = test.find(12);
 	std::cout << "f : " << f->first << " - " << f->second << std::endl;
 	std::cout << "count 12 : " << test.count(12) << " count 123 : " << test.count(123) << std::endl;
+ft::map<int, std::string> ctest(test);
+std::cout << "Copy : " << std::endl;
+	
+	for (ft::map<int, std::string>::iterator it = ctest.begin(); it != ctest.end(); it++)
+		std::cout << "key " << it->first << " - value : " << it->second << std::endl ;
+
 }

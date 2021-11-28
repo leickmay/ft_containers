@@ -54,12 +54,25 @@ namespace ft{
 				_value_comp = value_compare();
 			}
 //range 	(2)	
-			/*template <class InputIterator>
-			map (InputIterator first, InputIterator last,
-			const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type());
+			template <class InputIterator>
+			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _key_comp(comp)
+			{
+				_value_comp = value_compare();
+				while (first != last)
+				{
+					insert(first.data);
+					first++;
+				}
+			}
 //copy (	3)	
-			map (const map& x);*/
+			map (const map& x)
+			{
+				_alloc = x._alloc;
+				_key_comp = x._key_comp;
+				_value_comp = x._value_comp;
+				_c = x._c;
+			}
 			iterator begin(){return _c.begin();}
 			const_iterator begin() const{return _c.begin();}
 			iterator end() {return _c.end();}
@@ -163,7 +176,7 @@ namespace ft{
 			{
 				return _c.lower_bound(ft::make_pair(k, mapped_type()));
 			}
-			const_iterator lower_bound (const key_type& k) const;
+			const_iterator lower_bound (const key_type& k) const
 			{
 				return _c.lower_bound(ft::make_pair(k, mapped_type()));
 			}

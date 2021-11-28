@@ -20,6 +20,8 @@ namespace ft
 		node		*parent;
 
 		node(value_type const &src) : data(src){}
+		node(value_type const &src, node *l, node *r, node *p) : data(src), left(l), right(r), parent(p) {}
+		node(node *l, node *r, node *p) : left(l), right(r), parent(p) {}
 	};
 
 
@@ -46,8 +48,41 @@ namespace ft
 			const allocator_type& alloc = allocator_type()): _alloc(alloc), _comp(comp){
 				_size = 0;
 				_root = NULL;
-				_last = _last_node();
+				_last = _alloc.allocate(1);
+				_alloc.construct(_last, node(_last, _last, _last));
 			};
+
+			bst(bst const& copy)
+			{
+				_alloc = copy._alloc;
+				_comp = copy._comp;
+				_size = copy._size;
+				_deepCopy(*this, copy._root, copy._last);
+				//_refresh_last();
+			}
+
+			bst operator=(bst const& copy)
+			{
+				_alloc = copy._alloc;
+				_comp = copy._comp;
+				_size = copy._size;
+				std::cout << "pouic\n";
+				_deepCopy(*this, copy._root, copy._last);
+				std::cout << "lol\n";
+				_refresh_last();
+				std::cout << "reacheeeeed\n";
+				return *this;
+			}
+
+			void	_deepCopy(bst &dest, node_ptr croot, node_ptr clast)
+			{
+				if (croot != NULL && croot != clast)
+				{
+					_deepCopy(dest, croot->left, clast);
+					dest.insert(croot->data);
+					_deepCopy(dest, croot->right, clast);
+				}
+			}
 
 			~bst()
 			{
@@ -102,7 +137,7 @@ namespace ft
 				//if (!_root)
 				//	return ;
 				//node_ptr n = _new_node(val); //on crée le noeud
-				node_ptr tmp = _root; //ptr tmp sur root
+				node_ptr tmp = _last->parent; //ptr tmp sur root
 				node_ptr buf = NULL; //ptr buf qui représente le noeud parent de tmp
 				//donc NULL car le parent de la racine est toujours NULL
 
@@ -126,6 +161,7 @@ namespace ft
 
 				//si on a bien trouvé le ptr NULL où placer le nouveau noeud
 				//on init tous ses ptrs
+				//_alloc.deallocate(_last, 1);
 				node_ptr n = _new_node(val);
 				n->parent = buf;
 				if (buf == NULL)
@@ -145,6 +181,7 @@ namespace ft
 					n->right = _last;
 					_last->parent = n;
 				}
+				//_refresh_last();
 				//_set_last();
 				return ft::make_pair<iterator, bool>(n, true);
 			}
@@ -377,6 +414,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 						return ft::make_pair<iterator, bool>(tmp, false);
 					}
 				}
+				//_alloc.deallocate(_last, 1);
 				node_ptr n = _new_node(val);
 				//si on a bien trouvé le ptr NULL où placer le nouveau noeud
 				//on init tous ses ptrs
@@ -398,6 +436,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 					n->right = _last;
 					_last->parent = n;
 				}
+				//_refresh_last();
 				return ft::make_pair<iterator, bool>(n, true);
 			}
 
@@ -415,12 +454,25 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 			node_ptr _last_node()
 			{
 				node_ptr ret = _alloc.allocate(1);
+
+				//_alloc.construct(ret, ft::make_pair(NULL, NULL));
 				ret->left = NULL;
 				ret->right = NULL;
 				ret->parent = NULL;
 
 				return ret;
 			}
+
+			void	_refresh_last()
+			{
+				node_ptr tmp = _root;
+				while (tmp->right)
+					tmp = tmp->right;
+				tmp->right = _last_node();
+				tmp->right->parent = tmp;
+				_last = tmp->right;
+			}
+
 			node_ptr	_deepRemove(node_ptr root, value_type val)
 			{
 				if (_comp(val.first,root->data.first))
