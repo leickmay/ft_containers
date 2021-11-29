@@ -9,7 +9,7 @@
 
 namespace ft 
 {
-	template < class T>
+	template < class T >
 	struct node
 	{
 		typedef T	value_type;
@@ -66,11 +66,9 @@ namespace ft
 				_alloc = copy._alloc;
 				_comp = copy._comp;
 				_size = copy._size;
-				std::cout << "pouic\n";
 				_deepCopy(*this, copy._root, copy._last);
-				std::cout << "lol\n";
-				_refresh_last();
-				std::cout << "reacheeeeed\n";
+
+				//_refresh_last();
 				return *this;
 			}
 
@@ -102,13 +100,13 @@ namespace ft
 			if (!_root)
 				return _last;
 			node_ptr tmp = _root;
-			while (tmp->left)
+			while (tmp->left && tmp->left != _last)
 				tmp = tmp->left;
 			return tmp;
 		}
 
 		iterator end() {
-			return _last;
+			return _last->right;
 		}
 
 		bool empty() const {return (_size == 0);}
@@ -168,6 +166,7 @@ namespace ft
 				{
 					_root = n;
 					n->right = _last;
+					n->left = _last;
 					_last->parent = n;
 				}
 				//else if (n->data.first < buf->data.first)
@@ -176,14 +175,30 @@ namespace ft
 				else
 					buf->right = n;
 				_size++; //size++ évidemment
-				if (tmp == _last)
+				/*if (tmp == _last)
 				{
 					n->right = _last;
 					_last->parent = n;
-				}
+				}*/
 				//_refresh_last();
 				//_set_last();
+				_last->left = _getLower(_last->parent);
+				_last->right = _getHigher(_last->parent);
 				return ft::make_pair<iterator, bool>(n, true);
+			}
+
+			node_ptr	_getLower(node_ptr root)
+			{
+				while (root != _last && root->left != _last && root->left != NULL)
+					root = root->left;
+				return root;
+			}
+
+			node_ptr	_getHigher(node_ptr root)
+			{
+				while (root != _last && root->right != _last && root->right != NULL)
+					root = root->right;
+				return root;
 			}
 
 			iterator insert (iterator position, const value_type& val){
@@ -423,6 +438,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				{
 					_root = n;
 					n->right = _last;
+					n->left = _last;
 					_last->parent = n;
 				}
 				//else if (n->data.first < buf->data.first)
@@ -431,11 +447,13 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				else
 					buf->right = n;
 				_size++; //size++ évidemment
-				if (tmp == _last)
+				/*if (tmp == _last)
 				{
 					n->right = _last;
 					_last->parent = n;
-				}
+				}*/
+				_last->left = _getLower(_last->parent);
+				_last->right = _getHigher(_last->parent);
 				//_refresh_last();
 				return ft::make_pair<iterator, bool>(n, true);
 			}

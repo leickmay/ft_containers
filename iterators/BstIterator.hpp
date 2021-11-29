@@ -25,7 +25,9 @@ namespace ft{
 			BstIterator (BstIterator const& other): _it(other._it) {};
 			BstIterator &operator=(BstIterator const& other) {
 				if (this != &other)
+				{
 					_it = other._it;
+				}
 				return *this; 
 			};
 

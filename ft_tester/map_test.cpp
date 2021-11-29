@@ -65,7 +65,7 @@ void map_test()
 	for (ft::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
 std::cout << "size : " << test2.size() << std::endl;
-/*	std::cout << "erase ++begin : " << std::endl;
+	std::cout << "erase ++begin : " << std::endl;
 	test2.erase(++test2.begin());
 	for (ft::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
@@ -100,7 +100,7 @@ std::cout << "size : " << test2.size() << std::endl;
 	test.erase(ere);
 	for (ft::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << "key : loooooop" << it->first << " - value : " << it->second << std::endl ;
-	*/
+	
 
 std::cout << std::endl << "Swap the 2 maps : " << std::endl;
 test.swap(test2);
