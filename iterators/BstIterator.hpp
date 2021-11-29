@@ -20,13 +20,14 @@ namespace ft{
 
 		//constructors
 			BstIterator():_it(NULL) {};
-			BstIterator(node_ptr it):_it(it) {};
+			BstIterator(node_ptr it, node_ptr root):_it(it), _root(root) {};
 			~BstIterator() {};
-			BstIterator (BstIterator const& other): _it(other._it) {};
+			BstIterator (BstIterator const& other): _it(other._it), _root(other._root) {};
 			BstIterator &operator=(BstIterator const& other) {
 				if (this != &other)
 				{
 					_it = other._it;
+					_root = other._root;
 				}
 				return *this; 
 			};
@@ -56,9 +57,9 @@ namespace ft{
 					_it = _findPrev();
 				else
 				{
-					while (_it->parent)
-						_it = _it->parent;
-					_it = _findMax(_it);
+					/*while (_it->parent)
+						_it = _it->parent;*/
+					_it = _findMax(_root);
 				}
 				return *this;
 			}
@@ -80,6 +81,7 @@ namespace ft{
 
 		private:
 			node_ptr _it;
+			node_ptr _root;
 
 			node_ptr _findMin(node_ptr n)
 			{
@@ -108,7 +110,9 @@ namespace ft{
 				{
 					n = next;
 					next = next->parent;
+					std::cout << "find next : " << next << std::endl;
 				}
+				
 				return next;
 			}
 

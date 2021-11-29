@@ -153,7 +153,7 @@ namespace ft{
 
 			iterator find (const key_type& k)
 			{
-				iterator ret = _c.research(ft::make_pair(k, mapped_type()));
+				iterator ret(_c.research(ft::make_pair(k, mapped_type())));
 				if (ret == NULL)
 					return end();
 				return ret;

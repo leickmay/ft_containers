@@ -48,8 +48,8 @@ namespace ft
 			const allocator_type& alloc = allocator_type()): _alloc(alloc), _comp(comp){
 				_size = 0;
 				_root = NULL;
-				_last = _alloc.allocate(1);
-				_alloc.construct(_last, node(_last, _last, _last));
+				//_last = _alloc.allocate(1);
+				//_alloc.construct(_last, node(_last, _last, _last));
 			};
 
 			bst(bst const& copy)
@@ -57,7 +57,7 @@ namespace ft
 				_alloc = copy._alloc;
 				_comp = copy._comp;
 				_size = copy._size;
-				_deepCopy(*this, copy._root, copy._last);
+				_deepCopy(*this, copy._root);
 				//_refresh_last();
 			}
 
@@ -66,19 +66,19 @@ namespace ft
 				_alloc = copy._alloc;
 				_comp = copy._comp;
 				_size = copy._size;
-				_deepCopy(*this, copy._root, copy._last);
+				_deepCopy(*this, copy._root);
 
 				//_refresh_last();
 				return *this;
 			}
 
-			void	_deepCopy(bst &dest, node_ptr croot, node_ptr clast)
+			void	_deepCopy(bst &dest, node_ptr croot)
 			{
-				if (croot != NULL && croot != clast)
+				if (croot != NULL)
 				{
-					_deepCopy(dest, croot->left, clast);
+					_deepCopy(dest, croot->left);
 					dest.insert(croot->data);
-					_deepCopy(dest, croot->right, clast);
+					_deepCopy(dest, croot->right);
 				}
 			}
 
@@ -98,15 +98,15 @@ namespace ft
 		/*************DEBUG**********/
 		iterator begin() {
 			if (!_root)
-				return _last;
+				return end();
 			node_ptr tmp = _root;
-			while (tmp->left && tmp->left != _last)
+			while (tmp->left)
 				tmp = tmp->left;
-			return tmp;
+			return iterator(tmp, _root);
 		}
 
 		iterator end() {
-			return _last->right;
+			return iterator(NULL, _root);
 		}
 
 		bool empty() const {return (_size == 0);}
@@ -118,7 +118,7 @@ namespace ft
 			{
 				node_ptr tmp = _root;
 
-				while (tmp != NULL && tmp != _last) //tant qu'on a pas atteint les feuilles de l'arbre
+				while (tmp != NULL) //tant qu'on a pas atteint les feuilles de l'arbre
 				{
 					if (val.first == tmp->data.first) //égalité -> on a trouvé notre élément
 						return tmp; //du coup on le retourne
@@ -135,11 +135,11 @@ namespace ft
 				//if (!_root)
 				//	return ;
 				//node_ptr n = _new_node(val); //on crée le noeud
-				node_ptr tmp = _last->parent; //ptr tmp sur root
+				node_ptr tmp = _root; //ptr tmp sur root
 				node_ptr buf = NULL; //ptr buf qui représente le noeud parent de tmp
 				//donc NULL car le parent de la racine est toujours NULL
 
-				while (tmp != NULL && tmp != _last) //on recherche l'endroit ou insérer le nouveau noeud
+				while (tmp != NULL) //on recherche l'endroit ou insérer le nouveau noeud
 				{
 					buf = tmp;
 					//if (n->data.first < tmp->data.first) //cherche à gauche
@@ -153,7 +153,7 @@ namespace ft
 						//delete n; //ne pas oublier de del le noeud créé
 						//_alloc.destroy(n);
 						//_alloc.deallocate(n, 1);
-						return ft::make_pair<iterator, bool>(tmp, false);
+						return ft::make_pair<iterator, bool>(iterator(tmp, _root), false);
 					}
 				}
 
@@ -165,9 +165,11 @@ namespace ft
 				if (buf == NULL)
 				{
 					_root = n;
-					n->right = _last;
-					n->left = _last;
-					_last->parent = n;
+					_root->parent = NULL;
+					//n->right = _last;
+					//_last->parent = n;
+					//n->left = _last;
+					//_last->parent = n;
 				}
 				//else if (n->data.first < buf->data.first)
 				else if (_comp(n->data.first, buf->data.first))
@@ -182,21 +184,22 @@ namespace ft
 				}*/
 				//_refresh_last();
 				//_set_last();
-				_last->left = _getLower(_last->parent);
-				_last->right = _getHigher(_last->parent);
-				return ft::make_pair<iterator, bool>(n, true);
+				//_last->left = _getLower(_last->parent);
+				//_last = _getHigher(_root);
+
+				return ft::make_pair<iterator, bool>(iterator(n, _root), true);
 			}
 
 			node_ptr	_getLower(node_ptr root)
 			{
-				while (root != _last && root->left != _last && root->left != NULL)
+				while (root->left != NULL)
 					root = root->left;
 				return root;
 			}
 
 			node_ptr	_getHigher(node_ptr root)
 			{
-				while (root != _last && root->right != _last && root->right != NULL)
+				while (root->right != NULL)
 					root = root->right;
 				return root;
 			}
@@ -226,6 +229,7 @@ namespace ft
 					return ;
 				print();
 				_deepRemove2(_root, val);
+				print();
 			}
 
 node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
@@ -269,9 +273,6 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 			
 		}
 		_size--; //attention à bien décrémenter la size
-		node_ptr max = _max(_root);
-		max->right = _last;
-		_last->parent = max;
 		return root;
 }
 
@@ -293,19 +294,19 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 
 			void swap (bst& x){
 				node_ptr		tmp_root = _root;
-				node_ptr		tmp_last = _last;
+				//node_ptr		tmp_last = _last;
 				size_type		tmp_size = _size;
 				allocator_type	tmp_alloc = _alloc;
 				key_compare		tmp_comp = _comp;
 
 				_root = x._root;
-				_last = x._last;
+				//_last = x._last;
 				_size = x._size;
 				_alloc = x._alloc;
 				_comp = x._comp;
 
 				x._root = tmp_root;
-				x._last = tmp_last;
+				//x._last = tmp_last;
 				x._size = tmp_size;
 				x._alloc = tmp_alloc;
 				x._comp = tmp_comp;
@@ -384,7 +385,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 
 		private:
 			node_ptr		_root;
-			node_ptr		_last;
+			//node_ptr		_last;
 			size_type		_size;
 			allocator_type	_alloc;
 			key_compare		_comp;
@@ -393,17 +394,17 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 			node_ptr	_find_max()
 			{
 				node_ptr tmp = _root;
-				while (tmp != NULL && tmp != _last)
+				while (tmp->right != NULL)
 					tmp = tmp->right;
 				return tmp;
 			}
 
-			void		_set_last()
+			/*void		_set_last()
 			{
 				node_ptr max = _find_max();
 				max->right = _last;
 				_last->parent = max;
-			}
+			}*/
 
 			ft::pair<iterator, bool> _rootInsert(value_type val, node_ptr root)
 			{
@@ -414,7 +415,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				node_ptr buf = NULL; //ptr buf qui représente le noeud parent de tmp
 				//donc NULL car le parent de la racine est toujours NULL
 
-				while (tmp != NULL && tmp != _last) //on recherche l'endroit ou insérer le nouveau noeud
+				while (tmp != NULL) //on recherche l'endroit ou insérer le nouveau noeud
 				{
 					buf = tmp;
 					//if (n->data.first < tmp->data.first) //cherche à gauche
@@ -426,7 +427,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 					else //si on retrouve le noeud -> erreur, on ne fait rien
 					{
 						//delete n; //ne pas oublier de del le noeud créé
-						return ft::make_pair<iterator, bool>(tmp, false);
+						return ft::make_pair<iterator, bool>(iterator(tmp, _root), false);
 					}
 				}
 				//_alloc.deallocate(_last, 1);
@@ -437,9 +438,9 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				if (buf == NULL)
 				{
 					_root = n;
-					n->right = _last;
-					n->left = _last;
-					_last->parent = n;
+					//n->right = _last;
+					//n->left = _last;
+					//_last->parent = n;
 				}
 				//else if (n->data.first < buf->data.first)
 				else if (_comp(n->data.first, buf->data.first))
@@ -452,10 +453,10 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 					n->right = _last;
 					_last->parent = n;
 				}*/
-				_last->left = _getLower(_last->parent);
-				_last->right = _getHigher(_last->parent);
+				//_last->left = _getLower(_last->parent);
+				//_last->right = _getHigher(_last->parent);
 				//_refresh_last();
-				return ft::make_pair<iterator, bool>(n, true);
+				return ft::make_pair<iterator, bool>(iterator(n, _root), true);
 			}
 
 			node_ptr _new_node(const value_type &val)
@@ -469,7 +470,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				return ret;
 			} //fonction qui créée un noeud vierge, et init la key et la value
 
-			node_ptr _last_node()
+			/*node_ptr _last_node()
 			{
 				node_ptr ret = _alloc.allocate(1);
 
@@ -483,6 +484,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 
 			void	_refresh_last()
 			{
+				_alloc.deallocate(_last, 1);
 				node_ptr tmp = _root;
 				while (tmp->right)
 					tmp = tmp->right;
@@ -490,7 +492,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				tmp->right->parent = tmp;
 				_last = tmp->right;
 			}
-
+*/
 			node_ptr	_deepRemove(node_ptr root, value_type val)
 			{
 				if (_comp(val.first,root->data.first))
@@ -556,14 +558,14 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 
 			node_ptr	_max(node_ptr root)
 			{
-				while (root->right && root->right != _last)
+				while (root->right)
 					root = root->right;
 				return root;
 			}
 			/*************DEBUG**********/
 		void	_deepPrint(node_ptr root, std::string indent, bool last)
 		{
-			if (root != NULL && root != _last)
+			if (root != NULL)
 			{
 				std::cout << indent;
 				if (last)
@@ -581,8 +583,6 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				_deepPrint(root->left, indent, false);
 				_deepPrint(root->right, indent, true);
 			}
-			if (root == _last)
-				std::cout << indent << " === LAST === " << std::endl;
 		}
 
 /*************DEBUG**********/
@@ -602,7 +602,7 @@ node_ptr	_deepRemove2(node_ptr root, value_type val)//⚠️ fonction récursive
 				//node_ptr n = _it;
 				node_ptr next = NULL;
 
-				if (n->right != NULL && n->right != _last)
+				if (n->right != NULL)
 					return _min(n->right);
 				
 				next = n->parent;
