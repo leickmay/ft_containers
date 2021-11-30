@@ -108,16 +108,17 @@ namespace ft{
 			}
 
 			void erase (iterator position){
-				_c.erase(*position);
+				_c.erase(position);
 			}
 
 			size_type erase (const key_type& k){
-				return _c.remove(ft::make_pair(k, mapped_type()));
+				std::cout << "mais encore\n";
+				return _c.erase(ft::make_pair(k, mapped_type()));
 			}
 
 			void erase (iterator first, iterator last){
 				while (first != last)
-					_c.erase(*first++);
+					_c.erase(first++);
 			}
 
 			void swap (map& x)

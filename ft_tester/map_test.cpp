@@ -122,6 +122,7 @@ std::cout << "Copy : " << std::endl;
 		std::cout << "key " << it->first << " - value : " << it->second << std::endl ;*/
 
 	std::cout << std::endl << "======== FT::MAP TESTS ========" << std::endl << std::endl;
+
 	std::cout << std::endl << "===== Constructors =====" << std::endl << std::endl;
 	std::cout << "Create an empty map m1 and fill it with insert fct : " << std::endl;
 	ft::map<int, std::string> m1;
@@ -169,4 +170,58 @@ std::cout << "Copy : " << std::endl;
 
 	std::cout << std::endl << "===== Capacity =====" << std::endl << std::endl;
 	std::cout << "m1 size : " << m1.size() << " - empty : " << m1.empty() << " - max size : " << m1.max_size() << std::endl;
+
+	std::cout << std::endl << "===== Element access =====" << std::endl << std::endl;
+	std::cout << "access elements with m1[key] : " << std::endl;
+	std::cout << "m1[1] : " << m1[1] << " - m1[32] : " << m1[32] << " - m1[21] : " << m1[21] << std::endl;
+	std::cout << "insert an element using a non existing key, m1[4] = quatre, and display m1" << std::endl;
+	m1[4] = "quatre";
+	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "===== Modifiers =====" << std::endl << std::endl;
+	ft::pair<ft::map<int, std::string>::iterator, bool> ret_insert = m1.insert(ft::make_pair(1, "test"));
+	std::cout << "insert on an already existing key, return : iterator key : " << ret_insert.first->first \
+	<< " - value : " << ret_insert.first->second << " - bool : " << ret_insert.second << std::endl;
+	ret_insert = m1.insert(ft::make_pair(27, "vingt-sept"));
+	std::cout << "insert on a non-existing key, return : iterator key : " << ret_insert.first->first \
+	<< " - value : " << ret_insert.first->second << " - bool : " << ret_insert.second << std::endl;
+
+	ret_insert = m1.insert(ft::make_pair(12, "pouic"));
+	ft::map<int, std::string>::iterator douze = ret_insert.first;
+	ft::map<int, std::string>::iterator onze = m1.insert(douze, ft::make_pair(11, "onze"));
+	std::cout << "insert 11 with an hint position 12 - ret iterator : " << onze->first << " - " << onze->second << std::endl;
+	ft::map<int, std::string>::iterator treize = m1.insert(douze, ft::make_pair(13, "treize"));
+	std::cout << "insert 13 with an hint position 12 - ret iterator : " << treize->first << " - " << treize->second << std::endl;
+
+	std::cout << std::endl << "Create a new m3 map and display it : " << std::endl;
+	ft::map<int, std::string> m3;
+	m3.insert(ft::pair<int, std::string> (-10, "moins dix"));
+	m3.insert(ft::pair<int, std::string> (427, "Quatre cent vingt-sept"));
+	m3.insert(ft::pair<int, std::string> (8, "huit"));
+	for (ft::map<int, std::string>::iterator it = m3.begin(); it != m3.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+	std::cout << std::endl << "use m3.begin() and m3.end() as iterators to insert in m1, display m1 : " << std::endl;
+	m1.insert(m3.begin(), m3.end());
+	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	ret_insert = m1.insert(ft::make_pair(25, "pouic"));
+	ft::map<int, std::string>::iterator vingtcinq = ret_insert.first;
+	m1.erase(onze);
+	/*size_t ret1 = */m1.erase(427);
+	/*size_t ret2 = */m1.erase(7);
+	//m1.erase(douze, vingtcinq);
+	//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
+	//<< "with iterators from " << std::endl << std::endl;
+
+	/*srand(time(NULL));
+
+	ft::map<int, char> tab;
+	for (int i = 0; i < 10000000; i++)
+	{
+		int nb = rand() % 100000;
+		tab.insert(ft::make_pair<int, char>(nb, 'e'));
+	}*/
+
 }

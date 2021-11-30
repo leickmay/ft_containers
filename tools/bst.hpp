@@ -115,13 +115,13 @@ namespace ft
 				while (tmp != NULL)
 				{
 					buf = tmp;
+					
 					if (_comp(val.first, tmp->data.first))
 						tmp = tmp->left;
 					else if (_comp(tmp->data.first, val.first))
 						tmp = tmp->right;
 					else
 						return ft::make_pair<iterator, bool>(iterator(tmp, _root), false);
-
 				}
 				node_ptr n = _new_node(val);
 				n->parent = buf;
@@ -151,20 +151,20 @@ namespace ft
 					return insert(val, _root).first;
 			}
 
-			void	erase(value_type val)
+			void	erase(iterator position)
 			{
+				std::cout << "salut\n";
 				if (!_root)
 					return ;
-				node_ptr tmp = research(val);
+				node_ptr tmp = research(*position);
 				if (!tmp)
 					return ;
 				_deepRemove(tmp);
 			}
 
-			size_type remove(value_type const &k)
+			size_type erase(value_type const &k)
 			{
 				node_ptr tmp = research(k);
-
 				if (tmp)
 					_deepRemove(tmp);
 				else
@@ -296,7 +296,8 @@ namespace ft
 					old->parent->left = latest;
 				else
 					old->parent->right = latest;
-				latest->parent = old->parent;
+				if (latest)
+					latest->parent = old->parent;
 			}
 
 			void _deepRemove(node_ptr z)
@@ -314,7 +315,7 @@ namespace ft
 					x = z->left;
 					_invert(z, z->left);
 				}
-				else
+				else if (z->right != NULL && z->left != NULL)
 				{
 					y = _min(z->right);
 					x = y->right;
