@@ -3,7 +3,7 @@
 
 void map_test()
 {
-	std::cout << std::endl << "===== FT::MAP TESTS =====" << std::endl << std::endl;
+	/*std::cout << std::endl << "===== FT::MAP TESTS =====" << std::endl << std::endl;
 	std::map<int, std::string> test;
 	test.insert(std::pair<int, std::string> (5, "cinq"));
 	test.insert(std::pair<int, std::string> (1, "un"));
@@ -96,5 +96,54 @@ std::cout << "size : " << test2.size() << std::endl;
 	test.erase(er, ere);
 	for (std::map<int, std::string>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
-	
+	*/
+
+	std::cout << std::endl << "===== STD::MAP TESTS =====" << std::endl << std::endl;
+	std::cout << std::endl << "===== Constructors =====" << std::endl << std::endl;
+	std::cout << "Create an empty map m1 and fill it with insert fct : " << std::endl;
+	std::map<int, std::string> m1;
+	m1.insert(std::pair<int, std::string> (5, "cinq"));
+	m1.insert(std::pair<int, std::string> (1, "un"));
+	m1.insert(std::pair<int, std::string> (32, "trente deux"));
+	m1.insert(std::pair<int, std::string> (25, "vingt cinq"));
+	m1.insert(std::pair<int, std::string> (12, "douze"));
+	m1.insert(std::pair<int, std::string> (21, "vingt et un"));
+	std::cout << "Display m1 : " << std::endl;
+	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::map<int, std::string>::iterator itb = ++m1.begin();
+	std::map<int, std::string>::iterator ite = --m1.end();
+	ite--;
+	std::cout << "Create a map m2 with a range of iterators from " << itb->first << " to " << ite->first << std::endl;
+	std::map<int, std::string> m2(itb, ite);
+	std::cout << "Display m2 : " << std::endl;
+	for (std::map<int, std::string>::iterator it = m2.begin(); it != m2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "Create a copy map of m1 using copy constructor : " << std::endl;
+	std::map<int, std::string> copy(m1);
+	std::cout << "Display copy : " << std::endl;
+	for (std::map<int, std::string>::iterator it = copy.begin(); it != copy.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "Create a copy2 map of m1 using assignation operator : " << std::endl;
+	std::map<int, std::string> copy2 = m1;
+	std::cout << "Display copy2 : " << std::endl;
+	for (std::map<int, std::string>::iterator it = copy2.begin(); it != copy2.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "===== Iterators =====" << std::endl << std::endl;
+	std::cout << "Display m1 from rbegin to rend :" << std::endl;
+	for (std::map<int, std::string>::reverse_iterator it = m1.rbegin(); it != m1.rend(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "Compare iterators : " << std::endl;
+	std::map<int, std::string>::iterator itc = m1.begin();
+	std::map<int, std::string>::const_iterator citc = m1.begin();
+	std::cout << "m1.begin() == const m1.begin() : " << (itc == citc) << std::endl;
+	std::cout << "m1.begin() != const m1.begin() : " << (itc != citc) << std::endl;
+
+	std::cout << std::endl << "===== Capacity =====" << std::endl << std::endl;
+	std::cout << "m1 size : " << m1.size() << " - empty : " << m1.empty() << " - max size : " << m1.max_size() << std::endl;
 }

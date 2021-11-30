@@ -60,10 +60,7 @@ namespace ft{
 			{
 				_value_comp = value_compare();
 				while (first != last)
-				{
-					insert(first.data);
-					first++;
-				}
+					insert(*first++);
 			}
 //copy 		(3)
 			map (const map& x)
@@ -86,7 +83,7 @@ namespace ft{
 			//Capacity
 			bool empty() const {return _c.empty();}
 			size_type size() const {return _c.size();}
-			size_type	max_size() const {return _alloc.max_size();}
+			size_type	max_size() const {return _c.max_size();}
 
 			//Element Access
 			mapped_type& operator[] (const key_type& k)
