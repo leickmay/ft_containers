@@ -110,9 +110,10 @@ namespace ft{
 				{
 					n = next;
 					next = next->parent;
-					std::cout << "find next : " << next << std::endl;
+					//std::cout << "find next : " << next << std::endl;
+					//std::cout << "n dans find nxt : " << n << std::endl;
 				}
-				
+				//std::cout << "root parent : " << _root->parent << std::endl;
 				return next;
 			}
 

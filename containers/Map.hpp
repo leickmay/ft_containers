@@ -34,7 +34,7 @@ namespace ft{
 					}
 			};
 
-			typedef Alloc allocator_type;
+			typedef Alloc 										allocator_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
@@ -53,7 +53,7 @@ namespace ft{
 			const allocator_type& alloc = allocator_type()): _alloc(alloc), _key_comp(comp){
 				_value_comp = value_compare();
 			}
-//range 	(2)	
+//range 	(2)
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _key_comp(comp)
@@ -65,7 +65,7 @@ namespace ft{
 					first++;
 				}
 			}
-//copy (	3)	
+//copy 		(3)
 			map (const map& x)
 			{
 				_alloc = x._alloc;
@@ -97,7 +97,7 @@ namespace ft{
 			//Modifiers
 			ft::pair<iterator,bool> insert (const value_type& val)
 			{
-				return _c.insert(val);
+				return _c.insert(val, _c.getRoot());
 			};
 
 			iterator insert (iterator position, const value_type& val){
@@ -107,24 +107,20 @@ namespace ft{
 			template <class InputIterator>
 			void insert (InputIterator first, InputIterator last){
 				while (first != last)
-					_c.insert(*first++);
+					_c.insert(*first++, _c.getRoot());
 			}
 
 			void erase (iterator position){
-				_c.remove(*position);
+				_c.erase(*position);
 			}
 
 			size_type erase (const key_type& k){
-				return _c.erase(ft::make_pair(k, mapped_type()));
+				return _c.remove(ft::make_pair(k, mapped_type()));
 			}
 
 			void erase (iterator first, iterator last){
-				int i = 0;
 				while (first != last)
-				{
-					std::cout << "boucle erase : " << i++ << " - first : " << first->first << " - second : " << first->second << std::endl;
-					_c.remove(*first++);
-				}
+					_c.erase(*first++);
 			}
 
 			void swap (map& x)
@@ -153,17 +149,13 @@ namespace ft{
 
 			iterator find (const key_type& k)
 			{
-				iterator ret(_c.research(ft::make_pair(k, mapped_type())));
-				if (ret == NULL)
-					return end();
+				iterator ret(_c.research(ft::make_pair(k, mapped_type())), _c.getRoot());
 				return ret;
 			}
 
 			const_iterator find (const key_type& k) const
 			{
-				iterator ret = _c.research(ft::make_pair(k, mapped_type()));
-				if (ret == NULL)
-					return end();
+				iterator ret(_c.research(ft::make_pair(k, mapped_type())), _c.getRoot());
 				return ret;
 			}
 
@@ -210,6 +202,51 @@ namespace ft{
 			allocator_type						_alloc;
 			key_compare							_key_comp;
 			value_compare						_value_comp;
-
 	};
+
+	//Relational operators
+	template <class T, class Alloc>
+	bool operator== (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		if (lhs.size() != rhs.size())
+			return false;	
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <class T, class Alloc>
+	bool operator!= (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		return !(lhs == rhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator<  (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool operator<= (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+			return true;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool operator>  (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
+			return false;
+		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool operator>= (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs){
+		if (lhs == rhs)
+			return true;
+		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	//Swap
+	template <class T, class Alloc>
+	void swap (map<T,Alloc>& x, map<T,Alloc>& y){
+		x.swap(y);
+	}
+
 }

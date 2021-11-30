@@ -67,16 +67,11 @@ void map_test()
 std::cout << "size : " << test2.size() << std::endl;
 	std::cout << "erase ++begin : " << std::endl;
 	test2.erase(++test2.begin());
-	ft::map<int, std::string>::iterator pit = test2.begin();
-//	for (ft::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
+	//ft::map<int, std::string>::iterator pit = test2.begin();
+	for (ft::map<int, std::string>::iterator pit = test2.begin(); pit != test2.end(); pit++)
 		std::cout << "key : " << pit->first << " - value : " << pit->second << std::endl ;
-		pit++;
-			std::cout << "key : " << pit->first << " - value : " << pit->second << std::endl ;
-		pit++;
-			std::cout << "key : " << pit->first << " - value : " << pit->second << std::endl ;
-		pit++;
-std::cout << "key : " << pit->first << " - value : " << pit->second << std::endl ;
-/*		std::cout << "----" << std::endl;
+
+		std::cout << "----" << std::endl;
 	for (ft::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
 	std::cout << "erase(21) : " << std::endl;
@@ -86,7 +81,7 @@ std::cout << "key : " << pit->first << " - value : " << pit->second << std::endl
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
 	std::cout << "size : " << test2.size() << std::endl;
 	std::cout << "test 2 begin : " << test2.begin()->second << std::endl;
-	test2.erase(test2.begin(), test2.end());
+	//test2.erase(test2.begin(), test2.end());
 	std::cout << " -- -- -- " << std::endl;
 	for (ft::map<int, std::string>::iterator it = test2.begin(); it != test2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl ;
@@ -125,5 +120,5 @@ std::cout << "Copy : " << std::endl;
 	
 	for (ft::map<int, std::string>::iterator it = ctest.begin(); it != ctest.end(); it++)
 		std::cout << "key " << it->first << " - value : " << it->second << std::endl ;
-*/
+
 }
