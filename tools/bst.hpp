@@ -77,6 +77,13 @@ namespace ft
 				
 			}
 
+			void print()
+			{
+				if (_root != NULL)
+					_deepPrint(_root, "", true);
+				std::cout << "size : " << size() << std::endl;
+			}
+
 		iterator begin() {
 			if (!_root)
 				return end();
@@ -299,7 +306,7 @@ namespace ft
 				if (latest)
 					latest->parent = old->parent;
 			}
-
+/*
 			void _deepRemove(node_ptr z)
 			{
 				node_ptr y = z;
@@ -334,6 +341,83 @@ namespace ft
 				_alloc.destroy(z);
 				_alloc.deallocate(z, 1);
 				_size--;
+			}
+*/
+			void _deepPrint(node_ptr root, std::string indent, bool last) const
+			{
+				if (root != NULL)
+				{
+					std::cout << indent;
+					if (last)
+					{
+						std::cout << "R----";
+						indent += "   ";
+					}
+					else
+					{
+						std::cout << "L----";
+						indent += "|  ";
+					}
+
+					std::cout << root->data.first << " : " << root->data.second << std::endl;
+					_deepPrint(root->left, indent, false);
+					_deepPrint(root->right, indent, true);
+				}
+			}
+			void		_deepRemove(node_ptr to_remove)
+			{
+				node_ptr buf;
+				node_ptr to_replace;
+				//two children
+				std::cout << "node a supprimer : " << to_remove->data.first << std::endl;
+				//print();
+				if (to_remove->right && to_remove->left)
+				{
+					//left side of root
+					if (_comp(to_remove->data.first, _root->data.first))
+					{
+						std::cout << "bon cote " << std::endl;
+						to_replace = _min(to_remove->right);
+						buf = to_replace;
+						std::cout << " to_replace : " << to_replace->data.first << std::endl;
+						to_replace->parent = to_remove->parent;
+						to_replace->left = to_remove->left;
+						while (buf->right)
+							buf = buf->right;
+						buf->right = to_remove->right;
+						to_replace->parent->left = to_replace;
+						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
+						to_replace->left->parent = to_replace;
+						std::cout << "buf : " << buf->data.first << std::endl;
+						buf = buf->parent;
+						std::cout << "buf->parent : " << buf->data.first << std::endl;
+						if (!buf->left && !buf->right)
+							std::cout << "no child" << std::endl;
+						_alloc.destroy(to_remove);
+						_alloc.deallocate(to_remove, 1);
+						_size--;
+					}
+					//right side and root
+					else
+					{
+						std::cout << "autre cote" << std::endl;
+					}
+				}
+				//one child
+				else if (to_remove->left)
+				{
+					std::cout << "juste a gauche"<< std::endl;
+				}
+				else if (to_remove->right)
+				{
+					std::cout << "juste a droite " << std::endl;
+				}
+				//no child
+				else
+				{
+					std::cout << "pas de gosse"<< std::endl;
+				}
+
 			}
 
 			node_ptr	_min(node_ptr root)

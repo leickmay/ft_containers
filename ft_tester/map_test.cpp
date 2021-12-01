@@ -208,9 +208,14 @@ std::cout << "Copy : " << std::endl;
 
 	ret_insert = m1.insert(ft::make_pair(25, "pouic"));
 	ft::map<int, std::string>::iterator vingtcinq = ret_insert.first;
-	m1.erase(onze);
-	/*size_t ret1 = */m1.erase(427);
-	/*size_t ret2 = */m1.erase(7);
+	//m1.erase(onze);
+	/*size_t ret1 = *///m1.erase(427);
+	/*size_t ret2 = */m1.erase(1);
+	m1.erase(-10);
+	m1.erase(8);
+	m1.erase(32);
+	//for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+	//	std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 	//m1.erase(douze, vingtcinq);
 	//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
 	//<< "with iterators from " << std::endl << std::endl;

@@ -112,7 +112,6 @@ namespace ft{
 			}
 
 			size_type erase (const key_type& k){
-				std::cout << "mais encore\n";
 				return _c.erase(ft::make_pair(k, mapped_type()));
 			}
 
