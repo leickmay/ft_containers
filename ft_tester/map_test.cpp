@@ -126,7 +126,7 @@ std::cout << "Copy : " << std::endl;
 	std::cout << std::endl << "===== Constructors =====" << std::endl << std::endl;
 	std::cout << "Create an empty map m1 and fill it with insert fct : " << std::endl;
 	ft::map<int, std::string> m1;
-	m1.insert(ft::pair<int, std::string> (5, "cinq"));
+	m1.insert(ft::pair<int, std::string> (15, "cinq"));
 	m1.insert(ft::pair<int, std::string> (1, "un"));
 	m1.insert(ft::pair<int, std::string> (32, "trente deux"));
 	m1.insert(ft::pair<int, std::string> (25, "vingt cinq"));
@@ -214,8 +214,8 @@ std::cout << "Copy : " << std::endl;
 	m1.erase(-10);
 	m1.erase(8);
 	m1.erase(32);
-	//for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
-	//	std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+//	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+//		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 	//m1.erase(douze, vingtcinq);
 	//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
 	//<< "with iterators from " << std::endl << std::endl;

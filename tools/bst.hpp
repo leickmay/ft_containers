@@ -376,32 +376,81 @@ namespace ft
 					//left side of root
 					if (_comp(to_remove->data.first, _root->data.first))
 					{
-						std::cout << "bon cote " << std::endl;
+						std::cout << "--- bon cote " << std::endl;
 						to_replace = _min(to_remove->right);
-						buf = to_replace;
+						//buf = to_replace;
 						std::cout << " to_replace : " << to_replace->data.first << std::endl;
+						
 						to_replace->parent = to_remove->parent;
 						to_replace->left = to_remove->left;
-						while (buf->right)
-							buf = buf->right;
+
+						buf = _max(to_replace->right);
+						//std::cout << "buf : " << buf->data.first << std::endl;
 						buf->right = to_remove->right;
+						//std::cout << "buf->right : " << buf->right->data.first << std::endl;
+						to_remove->right->parent = buf;
+						//std::cout << "buf->right->parent : " << buf->right->parent->data.first << std::endl;
+						to_remove->left->parent = to_replace;
+						to_remove->parent->left = to_replace;
+						//while (buf->right)
+						//	buf = buf->right;
+						/*if (buf != to_replace)
+							buf->right = to_remove->right;
 						to_replace->parent->left = to_replace;
 						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
 						to_replace->left->parent = to_replace;
+						std::cout << "buf : " << buf->data.first << std::endl;*/
+						//std::cout << "buf->right : " << buf->right->data.first << std::endl;
+						
+						//buf = buf->parent;
+						//std::cout << "buf->parent : " << buf->data.first << std::endl;
+						//buf = buf->right;*/
+						std::cout << "to_replace : " << to_replace->data.first << std::endl;
+						std::cout << "to_replace->right : " << to_replace->right->data.first << std::endl;
+						std::cout << "to_replace->left : " << to_replace->left->data.first << std::endl;
+						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
+
+						buf = to_replace->right;
 						std::cout << "buf : " << buf->data.first << std::endl;
-						buf = buf->parent;
-						std::cout << "buf->parent : " << buf->data.first << std::endl;
-						if (!buf->left && !buf->right)
-							std::cout << "no child" << std::endl;
-						_alloc.destroy(to_remove);
-						_alloc.deallocate(to_remove, 1);
-						_size--;
+						std::cout << "buf->right : " << buf->right->data.first << std::endl;
+						std::cout << "buf->left : " << buf->left->data.first << std::endl;
+						std::cout << "buf->parent : " << buf->parent->data.first << std::endl;
+
 					}
 					//right side and root
 					else
 					{
-						std::cout << "autre cote" << std::endl;
+						std::cout << "--- autre cote" << std::endl;
+					/*	to_replace = _max(to_remove->left);
+						buf = to_remove;
+
+						std::cout << " to_replace : " << to_replace->data.first << std::endl;
+						
+						to_replace->parent = to_remove->parent;
+						to_replace->right = to_remove->right;
+						to_replace->left = to_remove->left;
+
+						buf = to_replace;
+						while(buf->left)
+							buf = buf->left;
+						if (buf != to_replace)
+							buf->left = to_remove->left;
+						
+						std::cout << "---buf : " << buf->data.first << std::endl;
+
+						
+						//if (buf != to_replace)
+						//	to_replace->left = buf;
+
+						to_replace->parent->right = to_replace;
+						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
+						to_replace->right->parent = to_replace;
+						std::cout << "buf : " << buf->data.first << std::endl;*/
 					}
+						_alloc.destroy(to_remove);
+						_alloc.deallocate(to_remove, 1);
+						_size--;
+						//print();
 				}
 				//one child
 				else if (to_remove->left)
@@ -417,13 +466,20 @@ namespace ft
 				{
 					std::cout << "pas de gosse"<< std::endl;
 				}
-
+						
 			}
 
 			node_ptr	_min(node_ptr root)
 			{
 				while (root->left != NULL)
 					root = root->left;
+				return root;
+			}
+
+			node_ptr	_max(node_ptr root)
+			{
+				while (root->right != NULL)
+					root = root->right;
 				return root;
 			}
 
