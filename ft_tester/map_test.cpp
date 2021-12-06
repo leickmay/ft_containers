@@ -126,7 +126,7 @@ std::cout << "Copy : " << std::endl;
 	std::cout << std::endl << "===== Constructors =====" << std::endl << std::endl;
 	std::cout << "Create an empty map m1 and fill it with insert fct : " << std::endl;
 	ft::map<int, std::string> m1;
-	m1.insert(ft::pair<int, std::string> (15, "cinq"));
+	m1.insert(ft::pair<int, std::string> (15, "quinze"));
 	m1.insert(ft::pair<int, std::string> (1, "un"));
 	m1.insert(ft::pair<int, std::string> (32, "trente deux"));
 	m1.insert(ft::pair<int, std::string> (25, "vingt cinq"));
@@ -191,6 +191,7 @@ std::cout << "Copy : " << std::endl;
 	ft::map<int, std::string>::iterator douze = ret_insert.first;
 	ft::map<int, std::string>::iterator onze = m1.insert(douze, ft::make_pair(11, "onze"));
 	std::cout << "insert 11 with an hint position 12 - ret iterator : " << onze->first << " - " << onze->second << std::endl;
+
 	ft::map<int, std::string>::iterator treize = m1.insert(douze, ft::make_pair(13, "treize"));
 	std::cout << "insert 13 with an hint position 12 - ret iterator : " << treize->first << " - " << treize->second << std::endl;
 
@@ -209,15 +210,31 @@ std::cout << "Copy : " << std::endl;
 	ret_insert = m1.insert(ft::make_pair(25, "pouic"));
 	ft::map<int, std::string>::iterator vingtcinq = ret_insert.first;
 	//m1.erase(onze);
-	/*size_t ret1 = *///m1.erase(427);
-	/*size_t ret2 = */m1.erase(1);
+
+	size_t ret1 = m1.erase(427);
+	std::cout << "ret1 : " << ret1 << std::endl;
+	size_t ret2 = m1.erase(321);
+	std::cout << "ret2 : " << ret2 << std::endl;
+//std::cout << "========\n";
+	m1.insert(ft::make_pair(14, "quatorze"));
+	m1.insert(ft::make_pair(22, "vingt-deux"));
+	//for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+	//	std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	m1.erase(21);
 	m1.erase(-10);
 	m1.erase(8);
 	m1.erase(32);
+//	std::cout << "========\n";
 //	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 //		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+	//m1.erase(1);
+
 	//m1.erase(douze, vingtcinq);
-	//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
+	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+		std::cout << "size : " << m1.size() << std::endl;
+		//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
 	//<< "with iterators from " << std::endl << std::endl;
 
 	/*srand(time(NULL));

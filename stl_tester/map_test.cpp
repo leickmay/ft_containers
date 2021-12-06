@@ -102,7 +102,7 @@ std::cout << "size : " << test2.size() << std::endl;
 	std::cout << std::endl << "===== Constructors =====" << std::endl << std::endl;
 	std::cout << "Create an empty map m1 and fill it with insert fct : " << std::endl;
 	std::map<int, std::string> m1;
-	m1.insert(std::pair<int, std::string> (5, "cinq"));
+	m1.insert(std::pair<int, std::string> (15, "quinze"));
 	m1.insert(std::pair<int, std::string> (1, "un"));
 	m1.insert(std::pair<int, std::string> (32, "trente deux"));
 	m1.insert(std::pair<int, std::string> (25, "vingt cinq"));
@@ -159,6 +159,7 @@ std::cout << "size : " << test2.size() << std::endl;
 	std::pair<std::map<int, std::string>::iterator, bool> ret_insert = m1.insert(std::make_pair(1, "test"));
 	std::cout << "insert on an already existing key, return : iterator key : " << ret_insert.first->first \
 	<< " - value : " << ret_insert.first->second << " - bool : " << ret_insert.second << std::endl;
+	ret_insert = m1.insert(std::make_pair(27, "vingt-sept"));
 	std::cout << "insert on a non-existing key, return : iterator key : " << ret_insert.first->first \
 	<< " - value : " << ret_insert.first->second << " - bool : " << ret_insert.second << std::endl;
 
@@ -166,8 +167,10 @@ std::cout << "size : " << test2.size() << std::endl;
 	std::map<int, std::string>::iterator douze = ret_insert.first;
 	std::map<int, std::string>::iterator onze = m1.insert(douze, std::make_pair(11, "onze"));
 	std::cout << "insert 11 with an hint position 12 - ret iterator : " << onze->first << " - " << onze->second << std::endl;
+
 	std::map<int, std::string>::iterator treize = m1.insert(douze, std::make_pair(13, "treize"));
 	std::cout << "insert 13 with an hint position 12 - ret iterator : " << treize->first << " - " << treize->second << std::endl;
+
 
 	std::cout << std::endl << "Create a new m3 map and display it : " << std::endl;
 	std::map<int, std::string> m3;
@@ -182,9 +185,26 @@ std::cout << "size : " << test2.size() << std::endl;
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 
 	ret_insert = m1.insert(std::make_pair(25, "pouic"));
-	//std::map<int, std::string>::iterator vingtcinq = ret_insert.first;
-	m1.erase(onze);
-	m1.erase(427);
+	std::map<int, std::string>::iterator vingtcinq = ret_insert.first;
+//std::cout << "========\n";
+	m1.insert(std::make_pair(14, "quatorze"));
+	m1.insert(std::make_pair(22, "vingt-deux"));
+	//for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+	//	std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+	std::cout << "size : " << m1.size() << std::endl;
+	m1.erase(21);
+	m1.erase(-10);
+	m1.erase(8);
+	m1.erase(32);
+	//std::cout << "========\n";
+	//for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+//		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	m1.erase(douze, vingtcinq);
+	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+	//m1.erase(onze);
+	//m1.erase(427);
 /*
 	srand(time(NULL));
 	std::map<int, char> tab;

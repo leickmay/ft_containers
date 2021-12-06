@@ -151,7 +151,6 @@ namespace ft
 				if (_comp(position.getCurrent()->data.first, val.first) && _comp(val.first, next->data.first))
 				{
 					ft::pair<iterator, bool> r = insert(val, position.getCurrent());
-					_size++;
 					return r.first;
 				}
 				else
@@ -160,9 +159,8 @@ namespace ft
 
 			void	erase(iterator position)
 			{
-				std::cout << "salut\n";
-				if (!_root)
-					return ;
+				//if (!_root)
+				//	return ;
 				node_ptr tmp = research(*position);
 				if (!tmp)
 					return ;
@@ -366,107 +364,82 @@ namespace ft
 			}
 			void		_deepRemove(node_ptr to_remove)
 			{
-				node_ptr buf;
 				node_ptr to_replace;
 				//two children
-				std::cout << "node a supprimer : " << to_remove->data.first << std::endl;
-				//print();
 				if (to_remove->right && to_remove->left)
 				{
 					//left side of root
 					if (_comp(to_remove->data.first, _root->data.first))
 					{
-						std::cout << "--- bon cote " << std::endl;
 						to_replace = _min(to_remove->right);
-						//buf = to_replace;
-						std::cout << " to_replace : " << to_replace->data.first << std::endl;
-						
+						node_ptr buf = to_replace->parent;
 						to_replace->parent = to_remove->parent;
 						to_replace->left = to_remove->left;
 
-						buf = _max(to_replace->right);
-						//std::cout << "buf : " << buf->data.first << std::endl;
-						buf->right = to_remove->right;
-						//std::cout << "buf->right : " << buf->right->data.first << std::endl;
-						to_remove->right->parent = buf;
-						//std::cout << "buf->right->parent : " << buf->right->parent->data.first << std::endl;
+						to_remove->parent->right = to_replace;
 						to_remove->left->parent = to_replace;
-						to_remove->parent->left = to_replace;
-						//while (buf->right)
-						//	buf = buf->right;
-						/*if (buf != to_replace)
-							buf->right = to_remove->right;
-						to_replace->parent->left = to_replace;
-						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
-						to_replace->left->parent = to_replace;
-						std::cout << "buf : " << buf->data.first << std::endl;*/
-						//std::cout << "buf->right : " << buf->right->data.first << std::endl;
-						
-						//buf = buf->parent;
-						//std::cout << "buf->parent : " << buf->data.first << std::endl;
-						//buf = buf->right;*/
-						std::cout << "to_replace : " << to_replace->data.first << std::endl;
-						std::cout << "to_replace->right : " << to_replace->right->data.first << std::endl;
-						std::cout << "to_replace->left : " << to_replace->left->data.first << std::endl;
-						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
+						if (to_remove->right != to_replace)
+						{
+							to_replace->right = to_remove->right;
+							to_remove->right->parent = to_replace;
 
-						buf = to_replace->right;
-						std::cout << "buf : " << buf->data.first << std::endl;
-						std::cout << "buf->right : " << buf->right->data.first << std::endl;
-						std::cout << "buf->left : " << buf->left->data.first << std::endl;
-						std::cout << "buf->parent : " << buf->parent->data.first << std::endl;
-
+							if (buf != to_remove)
+								buf->left = NULL;
+						}
 					}
 					//right side and root
 					else
 					{
-						std::cout << "--- autre cote" << std::endl;
-					/*	to_replace = _max(to_remove->left);
-						buf = to_remove;
-
-						std::cout << " to_replace : " << to_replace->data.first << std::endl;
-						
+						to_replace = _max(to_remove->left);
+						node_ptr buf = to_replace->parent;
 						to_replace->parent = to_remove->parent;
 						to_replace->right = to_remove->right;
-						to_replace->left = to_remove->left;
+						to_remove->right->parent = to_replace;
+						if (to_remove->parent)
+							to_remove->parent->right = to_replace;
+						if (to_remove->left != to_replace)
+						{
+							to_replace->left = to_remove->left;
+							to_remove->left->parent = to_replace;
 
-						buf = to_replace;
-						while(buf->left)
-							buf = buf->left;
-						if (buf != to_replace)
-							buf->left = to_remove->left;
-						
-						std::cout << "---buf : " << buf->data.first << std::endl;
-
-						
-						//if (buf != to_replace)
-						//	to_replace->left = buf;
-
-						to_replace->parent->right = to_replace;
-						std::cout << "to_replace->parent : " << to_replace->parent->data.first << std::endl;
-						to_replace->right->parent = to_replace;
-						std::cout << "buf : " << buf->data.first << std::endl;*/
+							if (buf != to_remove)
+								buf->right = NULL;
+						}
 					}
-						_alloc.destroy(to_remove);
-						_alloc.deallocate(to_remove, 1);
-						_size--;
-						//print();
 				}
 				//one child
 				else if (to_remove->left)
 				{
-					std::cout << "juste a gauche"<< std::endl;
+					to_replace = to_remove->left;
+
+					to_replace->parent = to_remove->parent;
+					if (to_remove == to_remove->parent->right)
+						to_remove->parent->right = to_replace;
+					else if (to_remove == to_remove->parent->left)
+						to_remove->parent->left = to_replace;
 				}
 				else if (to_remove->right)
 				{
-					std::cout << "juste a droite " << std::endl;
+					to_replace = to_remove->right;
+
+					to_replace->parent = to_remove->parent;
+					if (to_remove == to_remove->parent->right)
+						to_remove->parent->right = to_replace;
+					else if (to_remove == to_remove->parent->left)
+						to_remove->parent->left = to_replace;
 				}
 				//no child
 				else
 				{
-					std::cout << "pas de gosse"<< std::endl;
+					if (to_remove == to_remove->parent->right)
+						to_remove->parent->right = NULL;
+					else if (to_remove == to_remove->parent->left)
+						to_remove->parent->left = NULL;
 				}
-						
+				_alloc.destroy(to_remove);
+				_alloc.deallocate(to_remove, 1);
+				_size--;
+				print();
 			}
 
 			node_ptr	_min(node_ptr root)
