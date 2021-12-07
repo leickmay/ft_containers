@@ -145,7 +145,7 @@ std::cout << "Copy : " << std::endl;
 	for (ft::map<int, std::string>::iterator it = m2.begin(); it != m2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 
-	std::cout << std::endl << "Create a copy map of m1 using copy constructor : " << std::endl;
+	/*std::cout << std::endl << "Create a copy map of m1 using copy constructor : " << std::endl;
 	ft::map<int, std::string> copy(m1);
 	std::cout << "Display copy : " << std::endl;
 	for (ft::map<int, std::string>::iterator it = copy.begin(); it != copy.end(); it++)
@@ -156,7 +156,7 @@ std::cout << "Copy : " << std::endl;
 	std::cout << "Display copy2 : " << std::endl;
 	for (ft::map<int, std::string>::iterator it = copy2.begin(); it != copy2.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
-
+*/
 	std::cout << std::endl << "===== Iterators =====" << std::endl << std::endl;
 	std::cout << "Display m1 from rbegin to rend :" << std::endl;
 	for (ft::map<int, std::string>::reverse_iterator it = m1.rbegin(); it != m1.rend(); it++)
@@ -238,12 +238,27 @@ std::cout << "Copy : " << std::endl;
 	ittee--;
 
 	//std::cout << "itt : " << itt->first << " - ittee : " << ittee->first << std::endl;
-	m1.erase(itt, ittee);
+	//m1.erase(itt, ittee);
 	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 		std::cout << "size : " << m1.size() << std::endl;
 		//std::cout << std::endl << "Erase with iterator onze, with key : 427 - ret : " << ret1 << " non-existing key 7 - ret : " << ret2 
 	//<< "with iterators from " << std::endl << std::endl;
+
+	ft::map<int, std::string> test;
+	test.insert(ft::pair<int, std::string> (15, "quinze"));
+	test.insert(ft::pair<int, std::string> (1, "un"));
+	test.insert(ft::pair<int, std::string> (32, "trente deux"));
+	test.insert(ft::pair<int, std::string> (25, "vingt cinq"));
+	test.insert(ft::pair<int, std::string> (12, "douze"));
+	test.insert(ft::pair<int, std::string> (21, "vingt et un"));
+
+	ft::map<int, std::string>::iterator prout = test.end();
+	prout--;
+	ft::map<int, std::string>::iterator bprout = test.begin();
+	bprout++;
+	test.erase(bprout, prout);
+	test.erase(32);
 
 	/*srand(time(NULL));
 

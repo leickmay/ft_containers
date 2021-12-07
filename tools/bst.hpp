@@ -466,7 +466,7 @@ namespace ft
 				_alloc.destroy(to_remove);
 				_alloc.deallocate(to_remove, 1);
 				_size--;
-				print();
+				//print();
 			}
 
 			node_ptr	_min(node_ptr root)
@@ -508,5 +508,7 @@ namespace ft
 				}
 				return next;
 			}
+
+
 	};
 }

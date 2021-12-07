@@ -17,13 +17,15 @@ namespace ft{
 			typedef Key										key_type;
 			typedef T										mapped_type;
 			typedef ft::pair<const key_type, mapped_type>	value_type;
-			typedef std::less<key_type>						key_compare;
+			typedef Compare									key_compare;
 
-			class value_compare
+			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+				friend class map<key_type, mapped_type, key_compare, Alloc>;
+
 				protected:
 					Compare comp;
-					//value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+					value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 				public:
 					typedef bool result_type;
 					typedef value_type first_argument_type;
@@ -50,15 +52,13 @@ namespace ft{
 
 //empty 	(1)
 			explicit map (const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type()): _alloc(alloc), _key_comp(comp){
-				_value_comp = value_compare();
-			}
+			const allocator_type& alloc = allocator_type()): _alloc(alloc), _comp(comp){};
 //range 	(2)
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _key_comp(comp)
+			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _comp(comp)
 			{
-				_value_comp = value_compare();
+				//_value_comp = value_compare();
 				while (first != last)
 					insert(*first++);
 			}
@@ -66,10 +66,12 @@ namespace ft{
 			map (const map& x)
 			{
 				_alloc = x._alloc;
-				_key_comp = x._key_comp;
-				_value_comp = x._value_comp;
+				_comp = x._comp;
+				//_value_comp = x._value_comp;
 				_c = x._c;
 			}
+
+			~map(){};
 			iterator begin(){return _c.begin();}
 			const_iterator begin() const{return _c.begin();}
 			iterator end() {return _c.end();}
@@ -129,24 +131,24 @@ namespace ft{
 			void swap (map& x)
 			{
 				allocator_type tmpAlloc = _alloc;
-				key_compare tmpKeyComp = _key_comp;
-				value_compare tmpValueComp = _value_comp;
+				key_compare tmpComp = _comp;
+				//value_compare tmpValueComp = _value_comp;
 
 				_alloc = x._alloc;
-				_key_comp = x._key_comp;
-				_value_comp = x._value_comp;
+				_comp = x._comp;
+				//_value_comp = x._value_comp;
 
 				x._alloc = tmpAlloc;
-				x._key_comp = tmpKeyComp;
-				x._value_comp = tmpValueComp;
+				x._comp = tmpComp;
+				//x._value_comp = tmpValueComp;
 
 				_c.swap(x._c);
 			}
 
 		//Observers
 
-			key_compare key_comp() const {return _key_comp;}
-			value_compare value_comp() const {return _value_comp;}
+			key_compare key_comp() const {return key_compare();}
+			value_compare value_comp() const {return value_compare(key_compare());}
 
 		//Operations
 
@@ -201,10 +203,9 @@ namespace ft{
 			allocator_type get_allocator() const { return _alloc;}
 	
 		private:
-			ft::bst<value_type, key_compare>	_c;
 			allocator_type						_alloc;
-			key_compare							_key_comp;
-			value_compare						_value_comp;
+			key_compare							_comp;
+			ft::bst<value_type, key_compare>	_c;
 	};
 
 	//Relational operators
