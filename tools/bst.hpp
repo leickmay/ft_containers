@@ -102,8 +102,9 @@ namespace ft
 			{
 				node_ptr tmp = _root;
 
-				while (tmp != NULL)
+				while (tmp)
 				{
+					std::cout << " val.first : " << val.first << " - tmp->data.first : " << tmp->data.first << std::endl;
 					if (val.first == tmp->data.first)
 						return tmp;
 					else if (_comp(val.first, tmp->data.first))
@@ -159,19 +160,24 @@ namespace ft
 
 			void	erase(iterator position)
 			{
-				//if (!_root)
+				//if (position == iterator(NULL, _root))
 				//	return ;
 				node_ptr tmp = research(*position);
 				if (!tmp)
 					return ;
+				std::cout << "-----------node a supprimer : " << position->first <<  std::endl;
 				_deepRemove(tmp);
 			}
 
 			size_type erase(value_type const &k)
 			{
+				
 				node_ptr tmp = research(k);
 				if (tmp)
+				{
+					std::cout << "********val a supp : " << k.first <<std::endl;
 					_deepRemove(tmp);
+				}
 				else
 					return 0;
 				return 1;
@@ -405,6 +411,8 @@ namespace ft
 							if (buf != to_remove)
 								buf->right = NULL;
 						}
+						if (to_replace->parent == NULL)
+							_root = to_replace;
 					}
 				}
 				//one child
@@ -412,29 +420,48 @@ namespace ft
 				{
 					to_replace = to_remove->left;
 
-					to_replace->parent = to_remove->parent;
-					if (to_remove == to_remove->parent->right)
-						to_remove->parent->right = to_replace;
-					else if (to_remove == to_remove->parent->left)
-						to_remove->parent->left = to_replace;
+					if (to_remove->parent)
+					{
+						to_replace->parent = to_remove->parent;
+						if (to_remove == to_remove->parent->right)
+							to_remove->parent->right = to_replace;
+						else if (to_remove == to_remove->parent->left)
+							to_remove->parent->left = to_replace;
+					}
+					else
+					{
+						to_replace->parent = NULL;
+						_root = to_replace;
+					}
 				}
 				else if (to_remove->right)
 				{
 					to_replace = to_remove->right;
 
-					to_replace->parent = to_remove->parent;
-					if (to_remove == to_remove->parent->right)
-						to_remove->parent->right = to_replace;
-					else if (to_remove == to_remove->parent->left)
-						to_remove->parent->left = to_replace;
+					if (to_remove->parent)
+					{
+						to_replace->parent = to_remove->parent;
+						if (to_remove == to_remove->parent->right)
+							to_remove->parent->right = to_replace;
+						else if (to_remove == to_remove->parent->left)
+							to_remove->parent->left = to_replace;
+					}
+					else
+					{
+						to_replace->parent = NULL;
+						_root = to_replace;
+					}
 				}
 				//no child
 				else
 				{
-					if (to_remove == to_remove->parent->right)
-						to_remove->parent->right = NULL;
-					else if (to_remove == to_remove->parent->left)
-						to_remove->parent->left = NULL;
+					if (to_remove != _root)
+					{
+						if (to_remove == to_remove->parent->right)
+							to_remove->parent->right = NULL;
+						else if (to_remove == to_remove->parent->left)
+							to_remove->parent->left = NULL;
+					}
 				}
 				_alloc.destroy(to_remove);
 				_alloc.deallocate(to_remove, 1);

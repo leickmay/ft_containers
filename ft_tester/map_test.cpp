@@ -228,9 +228,17 @@ std::cout << "Copy : " << std::endl;
 //	std::cout << "========\n";
 //	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 //		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
-	//m1.erase(1);
+	m1.erase(1);
 
-	//m1.erase(douze, vingtcinq);
+	m1.erase(13);
+	ft::map<int, std::string>::iterator itt = m1.begin();
+	itt++;
+	itt++;
+	ft::map<int, std::string>::iterator ittee = m1.end();
+	ittee--;
+
+	//std::cout << "itt : " << itt->first << " - ittee : " << ittee->first << std::endl;
+	m1.erase(itt, ittee);
 	for (ft::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 		std::cout << "size : " << m1.size() << std::endl;

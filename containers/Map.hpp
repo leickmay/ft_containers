@@ -117,7 +117,13 @@ namespace ft{
 
 			void erase (iterator first, iterator last){
 				while (first != last)
+				{
+					std::cout << "seg\n";
+					std::cout << "it : " << first->first << std::endl;
+					std::cout << "fault\n";
 					_c.erase(first++);
+					
+				}
 			}
 
 			void swap (map& x)

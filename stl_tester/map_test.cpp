@@ -196,6 +196,7 @@ std::cout << "size : " << test2.size() << std::endl;
 	m1.erase(-10);
 	m1.erase(8);
 	m1.erase(32);
+	m1.erase(1);
 	//std::cout << "========\n";
 	//for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 //		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
