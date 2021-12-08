@@ -211,6 +211,55 @@ std::cout << "size : " << test2.size() << std::endl;
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 		std::cout << "size : " << m1.size() << std::endl;
 
+	std::cout << std::endl << "Swap m1 and m3, print them : " << std::endl;
+	m1.swap(m3);
+	std::cout << "m1 : " << std::endl;
+	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+	std::cout << "m3 : " << std::endl;
+	for (std::map<int, std::string>::iterator it = m3.begin(); it != m3.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << std::endl << "clear m3 and print its size : " << std::endl;
+	m3.clear();
+	std::cout << "size of m3 : " << m3.size() << std::endl;
+
+	std::cout << std::endl << "===== Observers =====" << std::endl << std::endl;
+	std::map<char,int> mymap;
+	std::cout << "make a new mymap and use its key_comp() to print it : " << std::endl;
+	std::map<char,int>::key_compare mycomp = mymap.key_comp();
+
+	mymap['a']=100;
+	mymap['b']=200;
+	mymap['c']=300;
+
+	std::cout << "mymap contains:\n";
+
+	char highest = mymap.rbegin()->first;// key value of last element
+
+	std::map<char,int>::iterator it = mymap.begin();
+	do {
+	std::cout << it->first << " => " << it->second << '\n';
+	} while ( mycomp((*it++).first, highest) );
+
+	std::cout << '\n';
+
+	std::cout << std::endl << "make a new mymap2 and use its value_comp() to print it : " << std::endl;
+	std::map<char,int> mymap2;
+
+	mymap2['x']=1001;
+	mymap2['y']=2002;
+	mymap2['z']=3003;
+
+	std::cout << "mymap2 contains:\n";
+
+	std::pair<char,int> highest2 = *mymap2.rbegin();// last element
+
+	std::map<char,int>::iterator it2 = mymap2.begin();
+	do {
+	std::cout << it2->first << " => " << it2->second << '\n';
+	} while ( mymap2.value_comp()(*it2++, highest2) );
+
 /*
 	srand(time(NULL));
 	std::map<int, char> tab;

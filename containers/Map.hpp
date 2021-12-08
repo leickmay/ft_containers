@@ -139,6 +139,11 @@ namespace ft{
 				_c.swap(x._c);
 			}
 
+			void clear()
+			{
+				_c.clear();
+			}
+
 		//Observers
 
 			key_compare key_comp() const {return key_compare();}

@@ -244,7 +244,44 @@ std::cout << "Copy : " << std::endl;
 
 	std::cout << std::endl << "clear m3 and print its size : " << std::endl;
 	m3.clear();
-	std::
+	std::cout << "size of m3 : " << m3.size() << std::endl;
+
+	std::cout << std::endl << "===== Observers =====" << std::endl << std::endl;
+	ft::map<char,int> mymap;
+	std::cout << "make a new mymap and use its key_comp() to print it : " << std::endl;
+	ft::map<char,int>::key_compare mycomp = mymap.key_comp();
+
+	mymap['a']=100;
+	mymap['b']=200;
+	mymap['c']=300;
+
+	std::cout << "mymap contains:\n";
+
+	char highest = mymap.rbegin()->first;// key value of last element
+
+	ft::map<char,int>::iterator it = mymap.begin();
+	do {
+	std::cout << it->first << " => " << it->second << '\n';
+	} while ( mycomp((*it++).first, highest) );
+
+	std::cout << '\n';
+
+	std::cout << std::endl << "make a new mymap2 and use its value_comp() to print it : " << std::endl;
+	ft::map<char,int> mymap2;
+
+	mymap2['x']=1001;
+	mymap2['y']=2002;
+	mymap2['z']=3003;
+
+	std::cout << "mymap2 contains:\n";
+
+	ft::pair<char,int> highest2 = *mymap2.rbegin();// last element
+
+	ft::map<char,int>::iterator it2 = mymap2.begin();
+	do {
+	std::cout << it2->first << " => " << it2->second << '\n';
+	} while ( mymap2.value_comp()(*it2++, highest2) );
+
 
 
 

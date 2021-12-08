@@ -72,7 +72,7 @@ namespace ft
 
 			~bst()
 			{
-				if (_root)
+				if (_size > 0)
 					_deepClear(_root);
 				
 			}
@@ -200,6 +200,13 @@ namespace ft
 				x._comp = tmp_comp;
 			}
 
+			void	clear()
+			{
+				_deepClear(_root);
+				_size = 0;
+				_root = NULL;
+			}
+
 			size_type count (const value_type& val) const
 			{
 				if (research(val))
@@ -297,18 +304,6 @@ namespace ft
 				ret->parent = NULL;
 
 				return ret;
-			}
-
-			void _invert(node_ptr old, node_ptr latest)
-			{
-				if (old->parent == NULL)
-					_root = latest;
-				else if (old == old->parent->left)
-					old->parent->left = latest;
-				else
-					old->parent->right = latest;
-				if (latest)
-					latest->parent = old->parent;
 			}
 /*
 			void _deepRemove(node_ptr z)
