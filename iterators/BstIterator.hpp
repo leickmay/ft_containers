@@ -56,11 +56,7 @@ namespace ft{
 				if (_it != NULL)
 					_it = _findPrev();
 				else
-				{
-					/*while (_it->parent)
-						_it = _it->parent;*/
 					_it = _findMax(_root);
-				}
 				return *this;
 			}
 	
@@ -110,10 +106,7 @@ namespace ft{
 				{
 					n = next;
 					next = next->parent;
-					//std::cout << "find next : " << next << std::endl;
-					//std::cout << "n dans find nxt : " << n << std::endl;
 				}
-				//std::cout << "root parent : " << _root->parent << std::endl;
 				return next;
 			}
 

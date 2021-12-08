@@ -58,7 +58,6 @@ namespace ft{
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _alloc(alloc), _comp(comp)
 			{
-				//_value_comp = value_compare();
 				while (first != last)
 					insert(*first++);
 			}
@@ -67,11 +66,11 @@ namespace ft{
 			{
 				_alloc = x._alloc;
 				_comp = x._comp;
-				//_value_comp = x._value_comp;
 				_c = x._c;
 			}
 
-			~map(){};
+			~map(){};//only allocations inside of the binary search tree that has its own destructor
+
 			iterator begin(){return _c.begin();}
 			const_iterator begin() const{return _c.begin();}
 			iterator end() {return _c.end();}
@@ -80,8 +79,12 @@ namespace ft{
 			const_reverse_iterator rbegin() const {return const_reverse_iterator(end());}
 			reverse_iterator rend(){return reverse_iterator(begin());}
 			const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
-
-
+			/********DEBUG***********/
+			void	print()
+			{
+				_c.print();
+			}
+			/********DEBUG***********/
 			//Capacity
 			bool empty() const {return _c.empty();}
 			size_type size() const {return _c.size();}
@@ -119,28 +122,19 @@ namespace ft{
 
 			void erase (iterator first, iterator last){
 				while (first != last)
-				{
-					std::cout << "seg\n";
-					std::cout << "it : " << first->first << std::endl;
-					std::cout << "fault\n";
 					_c.erase(first++);
-					
-				}
 			}
 
 			void swap (map& x)
 			{
 				allocator_type tmpAlloc = _alloc;
 				key_compare tmpComp = _comp;
-				//value_compare tmpValueComp = _value_comp;
 
 				_alloc = x._alloc;
 				_comp = x._comp;
-				//_value_comp = x._value_comp;
 
 				x._alloc = tmpAlloc;
 				x._comp = tmpComp;
-				//x._value_comp = tmpValueComp;
 
 				_c.swap(x._c);
 			}

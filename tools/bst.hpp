@@ -104,7 +104,7 @@ namespace ft
 
 				while (tmp)
 				{
-					std::cout << " val.first : " << val.first << " - tmp->data.first : " << tmp->data.first << std::endl;
+					//std::cout << " val.first : " << val.first << " - tmp->data.first : " << tmp->data.first << std::endl;
 					if (val.first == tmp->data.first)
 						return tmp;
 					else if (_comp(val.first, tmp->data.first))
@@ -165,7 +165,7 @@ namespace ft
 				node_ptr tmp = research(*position);
 				if (!tmp)
 					return ;
-				std::cout << "-----------node a supprimer : " << position->first <<  std::endl;
+				//std::cout << "-----------node a supprimer : " << position->first <<  std::endl;
 				_deepRemove(tmp);
 			}
 
@@ -175,7 +175,7 @@ namespace ft
 				node_ptr tmp = research(k);
 				if (tmp)
 				{
-					std::cout << "********val a supp : " << k.first <<std::endl;
+					//std::cout << "********val a supp : " << k.first <<std::endl;
 					_deepRemove(tmp);
 				}
 				else
@@ -377,18 +377,23 @@ namespace ft
 					//left side of root
 					if (_comp(to_remove->data.first, _root->data.first))
 					{
+						//to_replace = min of the right side of to_remove
 						to_replace = _min(to_remove->right);
+						
 						node_ptr buf = to_replace->parent;
+						//std::cout << to_remove->right->data.first << std::endl;
+						//std::cout << "to replace : " << to_replace->data.first << " - to_remove : " << to_remove->data.first << " - buf : " << buf->data.first << std::endl;
+						//set to_replace parent and left
 						to_replace->parent = to_remove->parent;
 						to_replace->left = to_remove->left;
-
-						to_remove->parent->right = to_replace;
+						//set to_replace in the tree
+						to_remove->parent->left = to_replace;
 						to_remove->left->parent = to_replace;
+
 						if (to_remove->right != to_replace)
 						{
 							to_replace->right = to_remove->right;
 							to_remove->right->parent = to_replace;
-
 							if (buf != to_remove)
 								buf->left = NULL;
 						}
@@ -396,13 +401,19 @@ namespace ft
 					//right side and root
 					else
 					{
+						//to_replace = max of the left side of to_remove
 						to_replace = _max(to_remove->left);
+
 						node_ptr buf = to_replace->parent;
+						//set to_replace parent and left
 						to_replace->parent = to_remove->parent;
 						to_replace->right = to_remove->right;
+						//std::cout << "to replace : " << to_replace->data.first << " - to_remove : " << to_remove->data.first << " - buf : " << buf->data.first << std::endl;
+						
+						//set to_replace in the tree
 						to_remove->right->parent = to_replace;
 						if (to_remove->parent)
-							to_remove->parent->right = to_replace;
+							to_remove->parent->left = to_replace;
 						if (to_remove->left != to_replace)
 						{
 							to_replace->left = to_remove->left;
@@ -413,6 +424,7 @@ namespace ft
 						}
 						if (to_replace->parent == NULL)
 							_root = to_replace;
+						
 					}
 				}
 				//one child

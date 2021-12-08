@@ -184,28 +184,33 @@ std::cout << "size : " << test2.size() << std::endl;
 	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 
-	ret_insert = m1.insert(std::make_pair(25, "pouic"));
-	std::map<int, std::string>::iterator vingtcinq = ret_insert.first;
-//std::cout << "========\n";
-	m1.insert(std::make_pair(14, "quatorze"));
-	m1.insert(std::make_pair(22, "vingt-deux"));
-	//for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
-	//	std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
-	std::cout << "size : " << m1.size() << std::endl;
-	m1.erase(21);
-	m1.erase(-10);
-	m1.erase(8);
-	m1.erase(32);
-	m1.erase(1);
-	//std::cout << "========\n";
-	//for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
-//		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
 
-	m1.erase(douze, vingtcinq);
+	ret_insert = m1.insert(std::make_pair(25, "pouic"));
+	std::cout << std::endl << "Erase 25 by iterator and print m1: " << std::endl;
+	std::map<int, std::string>::iterator vingtcinq = ret_insert.first;
+	m1.erase(vingtcinq);
 	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
 		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
-	//m1.erase(onze);
-	//m1.erase(427);
+
+	std::cout << std::endl << "Erase 427 by key and print the return : " << std::endl;
+	size_t ret1 = m1.erase(427);
+	std::cout << "ret1 : " << ret1 << std::endl;
+	std::cout << "Try to erase 321 (that doesn't exist) by key and print the return : " << std::endl;
+	size_t ret2 = m1.erase(321);
+	std::cout << "ret2 : " << ret2 << std::endl;
+
+	std::map<int, std::string>::iterator itt = m1.begin();
+	itt++;
+	itt++;
+	std::map<int, std::string>::iterator ittee = m1.end();
+	ittee--;
+
+	std::cout << std::endl << "Erase by range between " << "itt : " << itt->first << " and ittee : " << ittee->first << std::endl;
+	m1.erase(itt, ittee);
+	for (std::map<int, std::string>::iterator it = m1.begin(); it != m1.end(); it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+		std::cout << "size : " << m1.size() << std::endl;
+
 /*
 	srand(time(NULL));
 	std::map<int, char> tab;
