@@ -222,7 +222,7 @@ namespace ft
 			while (it != end())
 			{
 				tmp = it.getCurrent();
-				if (_comp(k, tmp->data) || (!_comp(k, tmp->data) && !_comp(tmp->data, k)))
+				if (_comp(k.first, tmp->data.first) || (!_comp(k.first, tmp->data.first) && !_comp(tmp->data.first, k.first)))
 					return it;
 				it++;
 			}
@@ -237,7 +237,7 @@ namespace ft
 			while (it != end())
 			{
 				tmp = it.getCurrent();
-				if (_comp(k, tmp->data) || (!_comp(k, tmp->data) && !_comp(tmp->data, k)))
+				if (_comp(k.first, tmp->data.first) || (!_comp(k.first, tmp->data.first) && !_comp(tmp->data.first, k.first)))
 					return it;
 				it++;
 			}
@@ -252,7 +252,7 @@ namespace ft
 			while (it != end())
 			{
 				tmp = it.getCurrent();
-				if (_comp(k, tmp->data))
+				if (_comp(k.first, tmp->data.first))
 					return it;
 				it++;
 			}

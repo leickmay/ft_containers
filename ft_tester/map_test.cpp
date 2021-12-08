@@ -290,8 +290,52 @@ std::cout << "Copy : " << std::endl;
 
 	std::cout << "Use m1.count(1) : " << m1.count(1) << " and m1.count(8) : " << m1.count(8) << std::endl;
 
+	ft::map<char,int> mymap3;
+	ft::map<char,int>::iterator itlow,itup;
 
+	mymap3['a']=20;
+	mymap3['b']=40;
+	mymap3['c']=60;
+	mymap3['d']=80;
+	mymap3['e']=100;
 
+	itlow=mymap3.lower_bound ('b');  // itlow points to b
+	itup=mymap3.upper_bound ('d');   // itup points to e (not d!)
+
+	mymap3.erase(itlow,itup);        // erases [itlow,itup)
+
+	// print content:
+	for (ft::map<char,int>::iterator it=mymap3.begin(); it!=mymap3.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<char,int> mymap4;
+
+	mymap4['a']=10;
+	mymap4['b']=20;
+	mymap4['c']=30;
+
+	ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> rett;
+	rett = mymap4.equal_range('b');
+
+	std::cout << "lower bound points to: ";
+	std::cout << rett.first->first << " => " << rett.first->second << '\n';
+
+	std::cout << "upper bound points to: ";
+	std::cout << rett.second->first << " => " << rett.second->second << '\n';
+
+	int psize;
+	ft::map<char,int> mymap5;
+	ft::pair<const char,int>* p;
+
+	// allocate an array of 5 elements using mymap's allocator:
+	p=mymap5.get_allocator().allocate(5);
+
+	// assign some values to array
+	psize = sizeof(ft::map<char,int>::value_type)*5;
+
+	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+
+	mymap5.get_allocator().deallocate(p,5);
 
 	/*srand(time(NULL));
 
