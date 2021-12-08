@@ -282,6 +282,14 @@ std::cout << "Copy : " << std::endl;
 	std::cout << it2->first << " => " << it2->second << '\n';
 	} while ( mymap2.value_comp()(*it2++, highest2) );
 
+	ft::map<int, std::string>::iterator un = m1.find(1);
+	ft::map<int, std::string>::iterator huit = m1.find(8);
+	std::cout << std::endl << "Create an iterator huit = m1.find(8) and un m1.find(1). As 1 doesn't exit in m1, un should be egal to end" << std::endl << "display m1 from huit to un (end) : "  << std::endl;
+	for (ft::map<int, std::string>::iterator it = huit; it != un; it++)
+		std::cout << "key : " << it->first << " - value : " << it->second << std::endl;
+
+	std::cout << "Use m1.count(1) : " << m1.count(1) << " and m1.count(8) : " << m1.count(8) << std::endl;
+
 
 
 
