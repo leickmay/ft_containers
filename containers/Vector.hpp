@@ -46,7 +46,8 @@ namespace ft
 				_size = l;
 				_capacity = l;
 				_alloc = alloc;
-				_c = _alloc.allocate(l);
+				if (l > 0)
+					_c = _alloc.allocate(l);
 				for (size_type i = 0; i < l; i++)
 				{
 					_alloc.construct(&_c[i], *first);
@@ -58,13 +59,15 @@ namespace ft
 				_size = x._size;
 				_capacity = x._capacity;
 				_alloc = x._alloc;
-				_c = _alloc.allocate(_capacity);
+				if (x._capacity > 0)
+					_c = _alloc.allocate(_capacity);
 				for (size_type i = 0; i <_size; i++)
 					_alloc.construct(&_c[i], x._c[i]);
 			}
 //destructor
 			~vector(){
 				clear();
+				std::cout << "cap : " << _capacity << std::endl;
 				_alloc.deallocate(_c, _capacity);
 			}
 //operator=
@@ -284,7 +287,6 @@ namespace ft
 			}
 			iterator erase (iterator position){
 				size_type dist = position - begin();
-				//_alloc.destroy(&_c[dist]);
 				iterator it = position;
 				while (it != (end() - 1))
 				{
@@ -406,7 +408,6 @@ bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
 
 	template <class T, class Alloc>
 	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-		//if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()))
 		if (lhs == rhs)
 			return true;
 		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());

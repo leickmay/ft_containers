@@ -77,26 +77,19 @@ namespace ft
 				
 			}
 
-			void print()
-			{
-				if (_root != NULL)
-					_deepPrint(_root, "", true);
-				std::cout << "size : " << size() << std::endl;
+			iterator begin() {
+				if (!_root)
+					return end();
+				return iterator(_min(_root), _root);
 			}
 
-		iterator begin() {
-			if (!_root)
-				return end();
-			return iterator(_min(_root), _root);
-		}
+			iterator end() {
+				return iterator(NULL, _root);
+			}
 
-		iterator end() {
-			return iterator(NULL, _root);
-		}
-
-		bool empty() const {return (_size == 0);}
-		size_type size() const {return _size;}
-		size_type	max_size() const {return _alloc.max_size();}
+			bool empty() const {return (_size == 0);}
+			size_type size() const {return _size;}
+			size_type	max_size() const {return _alloc.max_size();}
 
 			node_ptr research(value_type const& val) const
 			{
@@ -104,7 +97,6 @@ namespace ft
 
 				while (tmp)
 				{
-					//std::cout << " val.first : " << val.first << " - tmp->data.first : " << tmp->data.first << std::endl;
 					if (val.first == tmp->data.first)
 						return tmp;
 					else if (_comp(val.first, tmp->data.first))
@@ -160,12 +152,9 @@ namespace ft
 
 			void	erase(iterator position)
 			{
-				//if (position == iterator(NULL, _root))
-				//	return ;
 				node_ptr tmp = research(*position);
 				if (!tmp)
 					return ;
-				//std::cout << "-----------node a supprimer : " << position->first <<  std::endl;
 				_deepRemove(tmp);
 			}
 
@@ -174,10 +163,7 @@ namespace ft
 				
 				node_ptr tmp = research(k);
 				if (tmp)
-				{
-					//std::cout << "********val a supp : " << k.first <<std::endl;
 					_deepRemove(tmp);
-				}
 				else
 					return 0;
 				return 1;
@@ -305,64 +291,7 @@ namespace ft
 
 				return ret;
 			}
-/*
-			void _deepRemove(node_ptr z)
-			{
-				node_ptr y = z;
-				node_ptr x;
 
-				if (z->left == NULL)
-				{
-					x = z->right;
-					_invert(z, z->right);
-				}
-				else if (z->right == NULL)
-				{
-					x = z->left;
-					_invert(z, z->left);
-				}
-				else if (z->right != NULL && z->left != NULL)
-				{
-					y = _min(z->right);
-					x = y->right;
-					if (y->parent == z)
-						x->parent = y;
-					else
-					{
-						_invert(y, y->right);
-						y->right = z->right;
-						y->right->parent = y;
-					}
-					_invert(z, y);
-					y->left = z->left;
-					y->left->parent = y;
-				}
-				_alloc.destroy(z);
-				_alloc.deallocate(z, 1);
-				_size--;
-			}
-*/
-			void _deepPrint(node_ptr root, std::string indent, bool last) const
-			{
-				if (root != NULL)
-				{
-					std::cout << indent;
-					if (last)
-					{
-						std::cout << "R----";
-						indent += "   ";
-					}
-					else
-					{
-						std::cout << "L----";
-						indent += "|  ";
-					}
-
-					std::cout << root->data.first << " : " << root->data.second << std::endl;
-					_deepPrint(root->left, indent, false);
-					_deepPrint(root->right, indent, true);
-				}
-			}
 			void		_deepRemove(node_ptr to_remove)
 			{
 				node_ptr to_replace;
@@ -376,8 +305,6 @@ namespace ft
 						to_replace = _min(to_remove->right);
 						
 						node_ptr buf = to_replace->parent;
-						//std::cout << to_remove->right->data.first << std::endl;
-						//std::cout << "to replace : " << to_replace->data.first << " - to_remove : " << to_remove->data.first << " - buf : " << buf->data.first << std::endl;
 						//set to_replace parent and left
 						to_replace->parent = to_remove->parent;
 						to_replace->left = to_remove->left;
@@ -403,8 +330,7 @@ namespace ft
 						//set to_replace parent and left
 						to_replace->parent = to_remove->parent;
 						to_replace->right = to_remove->right;
-						//std::cout << "to replace : " << to_replace->data.first << " - to_remove : " << to_remove->data.first << " - buf : " << buf->data.first << std::endl;
-						
+							
 						//set to_replace in the tree
 						to_remove->right->parent = to_replace;
 						if (to_remove->parent)
@@ -473,7 +399,6 @@ namespace ft
 				_alloc.destroy(to_remove);
 				_alloc.deallocate(to_remove, 1);
 				_size--;
-				//print();
 			}
 
 			node_ptr	_min(node_ptr root)

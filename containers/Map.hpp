@@ -20,12 +20,13 @@ namespace ft{
 			typedef Compare									key_compare;
 
 			class value_compare : public std::binary_function<value_type, value_type, bool>
-			{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-				friend class map<key_type, mapped_type, key_compare, Alloc>;
+			{
+				public:
+					value_compare (Compare c) : comp(c) {}
 
 				protected:
 					Compare comp;
-					value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+					
 				public:
 					typedef bool result_type;
 					typedef value_type first_argument_type;
@@ -79,12 +80,7 @@ namespace ft{
 			const_reverse_iterator rbegin() const {return const_reverse_iterator(end());}
 			reverse_iterator rend(){return reverse_iterator(begin());}
 			const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
-			/********DEBUG***********/
-			void	print()
-			{
-				_c.print();
-			}
-			/********DEBUG***********/
+
 			//Capacity
 			bool empty() const {return _c.empty();}
 			size_type size() const {return _c.size();}

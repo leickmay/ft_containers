@@ -191,5 +191,4 @@ void	vector_test()
 	std::cout << "vec2 <= vec : " << (vec2 <= vec) << std::endl;
 	std::cout << "vec2 > vec : " << (vec2 > vec) << std::endl;
 	std::cout << "vec2 >= vec : " << (vec2 >= vec) << std::endl;
-
 }

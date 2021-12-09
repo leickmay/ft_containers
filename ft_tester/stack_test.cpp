@@ -15,6 +15,7 @@ void	stack_test()
 	st.pop();
 	std::cout << st.top() << std::endl;
 
+
 	std::cout << std::endl << "=== Comparisons ===" << std::endl;
 	std::cout << "2 stacks : foo = three ints with a value of 100, bar = two ints with a value of 200" << std::endl;
 	
