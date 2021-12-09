@@ -67,7 +67,6 @@ namespace ft
 //destructor
 			~vector(){
 				clear();
-				std::cout << "cap : " << _capacity << std::endl;
 				_alloc.deallocate(_c, _capacity);
 			}
 //operator=

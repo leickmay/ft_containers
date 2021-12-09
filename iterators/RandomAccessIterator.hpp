@@ -64,10 +64,6 @@ namespace ft{
 			RandomAccessIterator	operator-(difference_type n){return (_ptr - n);}
 			difference_type			operator-(RandomAccessIterator const& a){return _ptr - a._ptr;}
 
-
-
-
-
 			//offset derefence operator
 			reference &operator[] (difference_type n) const {return &_ptr[n];}
 
@@ -146,10 +142,4 @@ namespace ft{
 	operator>(const ft::RandomAccessIterator<T> lhs, const ft::RandomAccessIterator<Tconst> rhs){
 		return (lhs.base() > rhs.base());
 	}
-
-			/*bool					operator==(RandomAccessIterator const& a){return (a._ptr == _ptr);}
-			bool					operator>=(RandomAccessIterator const& a){return (a._ptr >= _ptr);}
-			bool					operator<=(RandomAccessIterator const& a){return (a._ptr <= _ptr);}
-			bool					operator>(RandomAccessIterator const& a){return (a._ptr > _ptr);}
-			bool					operator<(RandomAccessIterator const& a){return (a._ptr < _ptr);}*/
 }
