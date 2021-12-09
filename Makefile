@@ -35,8 +35,9 @@ OBJS_STL = $(SRCS_STL:.cpp=.o)
 		$(CC) -g3 $(FLAGS) -c $< -o $(<:.cpp=.o)
 
 $(NAME):	$(OBJS) $(OBJS_STL) $(INCLUDES) $(INCLUDES_STL)
-			$(CC) -g3 -o $(NAME) $(SRCS)
-			$(CC) -g3 -o $(NAME_STL) $(SRCS_STL)
+			$(CC) -o $(NAME) $(SRCS)
+			$(CC) -o $(NAME_STL) $(SRCS_STL)
+			rm -rf stl_containers.dSYM ft_containers.dSYM
 
 
 all :	$(NAME)
